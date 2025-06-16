@@ -1,3 +1,4 @@
+
 import { 
   Home, 
   Package, 
@@ -6,7 +7,8 @@ import {
   FileText, 
   User, 
   Menu,
-  Building2
+  Building2,
+  Lightbulb
 } from "lucide-react";
 import {
   Sidebar,
@@ -33,6 +35,7 @@ const menuItems = [
   { id: "reports", title: "Отчеты", icon: BarChart3 },
   { id: "documents", title: "Документы", icon: FileText },
   { id: "profile", title: "Профиль и поддержка", icon: User },
+  { id: "concept", title: "Предложенная концепция", icon: Lightbulb },
 ];
 
 export function AppSidebar({ activeSection, onSectionChange }: AppSidebarProps) {
@@ -69,12 +72,20 @@ export function AppSidebar({ activeSection, onSectionChange }: AppSidebarProps) 
                     className={`
                       w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200
                       ${activeSection === item.id
-                        ? "bg-blue-50 text-blue-700 border-r-2 border-blue-600"
+                        ? item.id === "concept"
+                          ? "bg-yellow-100 text-yellow-800 border-r-2 border-yellow-600"
+                          : "bg-blue-50 text-blue-700 border-r-2 border-blue-600"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                       }
                     `}
                   >
-                    <item.icon className={`w-5 h-5 ${activeSection === item.id ? "text-blue-600" : ""}`} />
+                    <item.icon className={`w-5 h-5 ${
+                      activeSection === item.id 
+                        ? item.id === "concept" 
+                          ? "text-yellow-600" 
+                          : "text-blue-600" 
+                        : ""
+                    }`} />
                     {!collapsed && (
                       <span className="font-medium">{item.title}</span>
                     )}

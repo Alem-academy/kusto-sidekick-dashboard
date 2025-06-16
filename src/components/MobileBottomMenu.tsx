@@ -5,7 +5,8 @@ import {
   ShoppingCart, 
   BarChart3, 
   FileText, 
-  User
+  User,
+  Lightbulb
 } from "lucide-react";
 
 interface MobileBottomMenuProps {
@@ -20,6 +21,7 @@ const menuItems = [
   { id: "reports", title: "Отчеты", icon: BarChart3 },
   { id: "documents", title: "Документы", icon: FileText },
   { id: "profile", title: "Профиль", icon: User },
+  { id: "concept", title: "Концепция", icon: Lightbulb },
 ];
 
 export function MobileBottomMenu({ activeSection, onSectionChange }: MobileBottomMenuProps) {
@@ -33,12 +35,20 @@ export function MobileBottomMenu({ activeSection, onSectionChange }: MobileBotto
             className={`
               flex flex-col items-center justify-center p-2 rounded-lg transition-colors min-w-0 flex-1
               ${activeSection === item.id
-                ? "text-blue-600 bg-blue-50"
+                ? item.id === "concept"
+                  ? "text-yellow-600 bg-yellow-50"
+                  : "text-blue-600 bg-blue-50"
                 : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
               }
             `}
           >
-            <item.icon className={`w-5 h-5 mb-1 ${activeSection === item.id ? "text-blue-600" : ""}`} />
+            <item.icon className={`w-5 h-5 mb-1 ${
+              activeSection === item.id 
+                ? item.id === "concept" 
+                  ? "text-yellow-600" 
+                  : "text-blue-600" 
+                : ""
+            }`} />
             <span className="text-xs font-medium truncate">{item.title}</span>
           </button>
         ))}
