@@ -1,56 +1,84 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import { 
   Package, 
   ShoppingCart, 
-  TrendingUp, 
-  FileText,
-  Users,
-  DollarSign
+  AlertTriangle, 
+  Calendar,
+  TrendingUp
 } from "lucide-react";
 
 export function DashboardContent() {
-  const stats = [
+  const widgets = [
     {
-      title: "Товары на складе",
-      value: "1,247",
-      change: "+12%",
+      title: "Общий остаток товаров",
+      value: "12,847",
+      unit: "шт.",
+      change: "+2.5%",
       changeType: "positive",
       icon: Package,
       color: "blue"
     },
     {
-      title: "Активные заказы",
-      value: "89",
-      change: "+3%",
+      title: "Заказы в обработке",
+      value: "23",
+      unit: "шт.",
+      change: "+12%",
       changeType: "positive",
       icon: ShoppingCart,
       color: "green"
     },
     {
-      title: "Оборот за месяц",
-      value: "₽2,847,390",
-      change: "+8%",
-      changeType: "positive",
-      icon: DollarSign,
-      color: "purple"
+      title: "Критический остаток",
+      value: "18",
+      unit: "позиций",
+      change: "-3",
+      changeType: "negative",
+      icon: AlertTriangle,
+      color: "red"
     },
     {
-      title: "Документы",
-      value: "156",
-      change: "+24",
+      title: "Истекающие сроки годности",
+      value: "7",
+      unit: "позиций",
+      change: "+2",
       changeType: "neutral",
-      icon: FileText,
+      icon: Calendar,
       color: "orange"
     }
   ];
 
-  const recentOrders = [
-    { id: "#ORD-001", customer: "ООО Техносфера", amount: "₽45,680", status: "В обработке", date: "15.06.2025" },
-    { id: "#ORD-002", customer: "ИП Иванов А.А.", amount: "₽12,340", status: "Отправлен", date: "14.06.2025" },
-    { id: "#ORD-003", customer: "ООО Металлинвест", amount: "₽89,750", status: "Доставлен", date: "14.06.2025" },
-    { id: "#ORD-004", customer: "ЗАО Прогресс", amount: "₽34,520", status: "В обработке", date: "13.06.2025" },
+  const recentOperations = [
+    { id: "OP-001", type: "Поступление", product: "Метизы М12", quantity: "+150 шт.", date: "16.06.2025 14:30", status: "Завершено" },
+    { id: "OP-002", type: "Отгрузка", product: "Уголок 50x50", quantity: "-80 шт.", date: "16.06.2025 12:15", status: "Завершено" },
+    { id: "OP-003", type: "Перемещение", product: "Труба 32мм", quantity: "45 шт.", date: "16.06.2025 10:45", status: "В процессе" },
+    { id: "OP-004", type: "Списание", product: "Крепеж М8", quantity: "-12 шт.", date: "15.06.2025 16:20", status: "Завершено" },
+    { id: "OP-005", type: "Поступление", product: "Лист стальной", quantity: "+25 шт.", date: "15.06.2025 13:10", status: "Завершено" },
   ];
+
+  const chartData = [
+    { date: '10.06', incoming: 420, outgoing: 380 },
+    { date: '11.06', incoming: 380, outgoing: 420 },
+    { date: '12.06', incoming: 520, outgoing: 350 },
+    { date: '13.06', incoming: 340, outgoing: 480 },
+    { date: '14.06', incoming: 460, outgoing: 320 },
+    { date: '15.06', incoming: 520, outgoing: 390 },
+    { date: '16.06', incoming: 480, outgoing: 410 },
+  ];
+
+  const chartConfig = {
+    incoming: {
+      label: "Поступления",
+      color: "#3b82f6",
+    },
+    outgoing: {
+      label: "Отгрузки", 
+      color: "#ef4444",
+    },
+  };
 
   return (
     <div className="p-6 space-y-6">
@@ -64,101 +92,122 @@ export function DashboardContent() {
         </div>
       </div>
 
-      {/* Stats Grid */}
+      {/* Widgets Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => (
+        {widgets.map((widget, index) => (
           <Card key={index} className="hover:shadow-lg transition-shadow duration-200">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-gray-600">
-                {stat.title}
+                {widget.title}
               </CardTitle>
               <div className={`p-2 rounded-lg ${
-                stat.color === 'blue' ? 'bg-blue-100' :
-                stat.color === 'green' ? 'bg-green-100' :
-                stat.color === 'purple' ? 'bg-purple-100' :
+                widget.color === 'blue' ? 'bg-blue-100' :
+                widget.color === 'green' ? 'bg-green-100' :
+                widget.color === 'red' ? 'bg-red-100' :
                 'bg-orange-100'
               }`}>
-                <stat.icon className={`w-4 h-4 ${
-                  stat.color === 'blue' ? 'text-blue-600' :
-                  stat.color === 'green' ? 'text-green-600' :
-                  stat.color === 'purple' ? 'text-purple-600' :
+                <widget.icon className={`w-4 h-4 ${
+                  widget.color === 'blue' ? 'text-blue-600' :
+                  widget.color === 'green' ? 'text-green-600' :
+                  widget.color === 'red' ? 'text-red-600' :
                   'text-orange-600'
                 }`} />
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
+              <div className="text-2xl font-bold text-gray-900">
+                {widget.value} <span className="text-sm font-normal text-gray-500">{widget.unit}</span>
+              </div>
               <div className={`text-xs flex items-center mt-1 ${
-                stat.changeType === 'positive' ? 'text-green-600' : 'text-gray-500'
+                widget.changeType === 'positive' ? 'text-green-600' : 
+                widget.changeType === 'negative' ? 'text-red-600' : 'text-gray-500'
               }`}>
-                {stat.changeType === 'positive' && <TrendingUp className="w-3 h-3 mr-1" />}
-                {stat.change} с прошлого месяца
+                {widget.changeType === 'positive' && <TrendingUp className="w-3 h-3 mr-1" />}
+                {widget.change} за неделю
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      {/* Recent Orders */}
+      {/* Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
+        {/* Recent Operations Table */}
+        <Card className="lg:col-span-1">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <ShoppingCart className="w-5 h-5 text-blue-600" />
-              Последние заказы
+              <Package className="w-5 h-5 text-blue-600" />
+              Последние операции
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {recentOrders.map((order) => (
-                <div key={order.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <div className="space-y-1">
-                    <div className="font-medium text-gray-900">{order.id}</div>
-                    <div className="text-sm text-gray-600">{order.customer}</div>
-                    <div className="text-xs text-gray-500">{order.date}</div>
-                  </div>
-                  <div className="text-right space-y-1">
-                    <div className="font-semibold text-gray-900">{order.amount}</div>
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      order.status === 'Доставлен' ? 'bg-green-100 text-green-800' :
-                      order.status === 'Отправлен' ? 'bg-blue-100 text-blue-800' :
-                      'bg-yellow-100 text-yellow-800'
-                    }`}>
-                      {order.status}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Тип</TableHead>
+                  <TableHead>Товар</TableHead>
+                  <TableHead>Количество</TableHead>
+                  <TableHead>Статус</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {recentOperations.map((operation) => (
+                  <TableRow key={operation.id}>
+                    <TableCell className="font-medium">{operation.type}</TableCell>
+                    <TableCell>{operation.product}</TableCell>
+                    <TableCell className={
+                      operation.quantity.startsWith('+') ? 'text-green-600' :
+                      operation.quantity.startsWith('-') ? 'text-red-600' : 'text-gray-600'
+                    }>
+                      {operation.quantity}
+                    </TableCell>
+                    <TableCell>
+                      <span className={`text-xs px-2 py-1 rounded-full ${
+                        operation.status === 'Завершено' ? 'bg-green-100 text-green-800' :
+                        'bg-yellow-100 text-yellow-800'
+                      }`}>
+                        {operation.status}
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
 
-        <Card>
+        {/* Chart */}
+        <Card className="lg:col-span-1">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Package className="w-5 h-5 text-purple-600" />
-              Быстрые действия
+              <TrendingUp className="w-5 h-5 text-purple-600" />
+              График движения товаров
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              <button className="w-full p-3 text-left bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
-                <div className="font-medium text-blue-900">Создать новый заказ</div>
-                <div className="text-sm text-blue-700">Оформить заказ для клиента</div>
-              </button>
-              <button className="w-full p-3 text-left bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
-                <div className="font-medium text-green-900">Проверить остатки</div>
-                <div className="text-sm text-green-700">Посмотреть наличие товаров</div>
-              </button>
-              <button className="w-full p-3 text-left bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
-                <div className="font-medium text-purple-900">Сформировать отчет</div>
-                <div className="text-sm text-purple-700">Создать отчет по продажам</div>
-              </button>
-              <button className="w-full p-3 text-left bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors">
-                <div className="font-medium text-orange-900">Загрузить документы</div>
-                <div className="text-sm text-orange-700">Добавить новые документы</div>
-              </button>
-            </div>
+            <ChartContainer config={chartConfig} className="h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={chartData}>
+                  <XAxis dataKey="date" />
+                  <YAxis />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Line 
+                    type="monotone" 
+                    dataKey="incoming" 
+                    stroke={chartConfig.incoming.color}
+                    strokeWidth={2}
+                    dot={{ fill: chartConfig.incoming.color, strokeWidth: 2, r: 4 }}
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="outgoing" 
+                    stroke={chartConfig.outgoing.color}
+                    strokeWidth={2}
+                    dot={{ fill: chartConfig.outgoing.color, strokeWidth: 2, r: 4 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </ChartContainer>
           </CardContent>
         </Card>
       </div>
