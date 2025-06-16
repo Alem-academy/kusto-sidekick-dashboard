@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
@@ -52,11 +51,11 @@ export function DashboardContent() {
   ];
 
   const recentOperations = [
-    { id: "OP-001", type: "Поступление", product: "Метизы М12", quantity: "+150 шт.", date: "16.06.2025 14:30", status: "Завершено" },
-    { id: "OP-002", type: "Отгрузка", product: "Уголок 50x50", quantity: "-80 шт.", date: "16.06.2025 12:15", status: "Завершено" },
-    { id: "OP-003", type: "Перемещение", product: "Труба 32мм", quantity: "45 шт.", date: "16.06.2025 10:45", status: "В процессе" },
-    { id: "OP-004", type: "Списание", product: "Крепеж М8", quantity: "-12 шт.", date: "15.06.2025 16:20", status: "Завершено" },
-    { id: "OP-005", type: "Поступление", product: "Лист стальной", quantity: "+25 шт.", date: "15.06.2025 13:10", status: "Завершено" },
+    { id: "OP-001", type: "Поступление", product: "Сок яблочный 1л", quantity: "+150 шт.", date: "16.06.2025 14:30", status: "Завершено" },
+    { id: "OP-002", type: "Отгрузка", product: "Сок апельсиновый 0.5л", quantity: "-80 шт.", date: "16.06.2025 12:15", status: "Завершено" },
+    { id: "OP-003", type: "Перемещение", product: "Сок томатный 1л", quantity: "45 шт.", date: "16.06.2025 10:45", status: "В процессе" },
+    { id: "OP-004", type: "Списание", product: "Сок мультифрукт 0.2л", quantity: "-12 шт.", date: "15.06.2025 16:20", status: "Завершено" },
+    { id: "OP-005", type: "Поступление", product: "Сок виноградный 1л", quantity: "+25 шт.", date: "15.06.2025 13:10", status: "Завершено" },
   ];
 
   const chartData = [

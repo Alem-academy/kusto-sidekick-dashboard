@@ -1,44 +1,47 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Plus, Truck, Clock, CheckCircle } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ShoppingCart, Plus, Truck, Clock, CheckCircle, CalendarDays } from "lucide-react";
 
 export function OrdersContent() {
   const orders = [
     {
       id: "#ORD-001",
-      customer: "ООО Техносфера",
+      customer: "ООО Вкусмарт",
       date: "15.06.2025",
       amount: "₽45,680",
       status: "processing",
-      items: 5,
+      items: ["Сок яблочный Rich 1л - 50 шт", "Сок апельсиновый Tropicana 1л - 30 шт"],
       delivery: "Самовывоз"
     },
     {
       id: "#ORD-002",
-      customer: "ИП Иванов А.А.",
+      customer: "ИП Сокова А.А.",
       date: "14.06.2025",
       amount: "₽12,340",
       status: "shipped",
-      items: 2,
+      items: ["Сок мультифрукт Добрый 0.5л - 120 шт"],
       delivery: "Курьер"
     },
     {
       id: "#ORD-003",
-      customer: "ООО Металлинвест",
+      customer: "ООО Фрешторг",
       date: "14.06.2025",
       amount: "₽89,750",
       status: "delivered",
-      items: 8,
+      items: ["Сок томатный Я 1л - 200 шт", "Сок виноградный Santal 1л - 150 шт"],
       delivery: "Транспортная компания"
     },
     {
       id: "#ORD-004",
-      customer: "ЗАО Прогресс",
+      customer: "ЗАО Соколенд",
       date: "13.06.2025",
       amount: "₽34,520",
       status: "processing",
-      items: 3,
+      items: ["Сок персиковый Rich 1л - 80 шт"],
       delivery: "Самовывоз"
     },
   ];
@@ -89,106 +92,213 @@ export function OrdersContent() {
           <h1 className="text-3xl font-bold text-gray-900">Заказы и доставка</h1>
           <p className="text-gray-600 mt-1">Управление заказами и отслеживание доставки</p>
         </div>
-        <Button className="bg-blue-600 hover:bg-blue-700">
-          <Plus className="w-4 h-4 mr-2" />
-          Новый заказ
-        </Button>
       </div>
 
-      {/* Order Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">В обработке</p>
-                <p className="text-2xl font-bold text-yellow-600">2</p>
-              </div>
-              <Clock className="w-8 h-8 text-yellow-600" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Отправлено</p>
-                <p className="text-2xl font-bold text-blue-600">1</p>
-              </div>
-              <Truck className="w-8 h-8 text-blue-600" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Доставлено</p>
-                <p className="text-2xl font-bold text-green-600">1</p>
-              </div>
-              <CheckCircle className="w-8 h-8 text-green-600" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Общая сумма</p>
-                <p className="text-2xl font-bold text-purple-600">₽182,290</p>
-              </div>
-              <ShoppingCart className="w-8 h-8 text-purple-600" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <Tabs defaultValue="create" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="create">Создать заказ</TabsTrigger>
+          <TabsTrigger value="history">История заказов</TabsTrigger>
+        </TabsList>
 
-      {/* Orders List */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <ShoppingCart className="w-5 h-5 text-blue-600" />
-            Список заказов
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {orders.map((order) => (
-              <div key={order.id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
+        <TabsContent value="create" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Plus className="w-5 h-5 text-blue-600" />
+                Новый заказ
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="customer">Заказчик</Label>
+                    <Input id="customer" placeholder="Название организации или ФИО" />
+                  </div>
+                  <div>
+                    <Label htmlFor="phone">Телефон</Label>
+                    <Input id="phone" placeholder="+7 (___) ___-__-__" />
+                  </div>
+                  <div>
+                    <Label htmlFor="email">Email</Label>
+                    <Input id="email" type="email" placeholder="email@example.com" />
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="delivery">Способ доставки</Label>
+                    <select id="delivery" className="w-full h-10 px-3 py-2 border border-gray-300 rounded-md">
+                      <option>Самовывоз</option>
+                      <option>Курьер</option>
+                      <option>Транспортная компания</option>
+                    </select>
+                  </div>
+                  <div>
+                    <Label htmlFor="delivery-date">Дата доставки</Label>
+                    <Input id="delivery-date" type="date" />
+                  </div>
+                  <div>
+                    <Label htmlFor="address">Адрес доставки</Label>
+                    <Input id="address" placeholder="Адрес доставки" />
+                  </div>
+                </div>
+              </div>
+
+              <Card className="bg-gray-50">
+                <CardHeader>
+                  <CardTitle className="text-lg">Товары в заказе</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                      <div>
+                        <Label>Товар</Label>
+                        <select className="w-full h-10 px-3 py-2 border border-gray-300 rounded-md">
+                          <option>Сок яблочный Rich 1л</option>
+                          <option>Сок апельсиновый Tropicana 1л</option>
+                          <option>Сок мультифрукт Добрый 0.5л</option>
+                          <option>Сок томатный Я 1л</option>
+                          <option>Сок виноградный Santal 1л</option>
+                        </select>
+                      </div>
+                      <div>
+                        <Label>Количество</Label>
+                        <Input type="number" placeholder="0" min="1" />
+                      </div>
+                      <div>
+                        <Label>Цена за единицу</Label>
+                        <Input type="number" placeholder="0.00" step="0.01" />
+                      </div>
+                      <div className="flex items-end">
+                        <Button className="w-full">Добавить</Button>
+                      </div>
+                    </div>
+                    
+                    <div className="border-t pt-4">
+                      <p className="text-sm text-gray-600 mb-2">Добавленные товары:</p>
+                      <div className="text-sm text-gray-500">Товары пока не добавлены</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="flex gap-4">
+                <Button className="bg-blue-600 hover:bg-blue-700">
+                  Создать заказ
+                </Button>
+                <Button variant="outline">
+                  Сохранить как черновик
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="history" className="space-y-6">
+          {/* Order Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <Card>
+              <CardContent className="p-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="space-y-1">
-                      <div className="font-semibold text-lg">{order.id}</div>
-                      <div className="text-gray-600">{order.customer}</div>
-                      <div className="text-sm text-gray-500">{order.date}</div>
-                    </div>
-                    <div className="space-y-1">
-                      <div className="text-sm text-gray-600">Товаров: {order.items}</div>
-                      <div className="text-sm text-gray-600">Доставка: {order.delivery}</div>
-                    </div>
+                  <div>
+                    <p className="text-sm text-gray-600">В обработке</p>
+                    <p className="text-2xl font-bold text-yellow-600">2</p>
                   </div>
-                  <div className="text-right space-y-2">
-                    <div className="text-xl font-bold text-gray-900">{order.amount}</div>
-                    <div className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm ${getStatusColor(order.status)}`}>
-                      {getStatusIcon(order.status)}
-                      {getStatusText(order.status)}
-                    </div>
+                  <Clock className="w-8 h-8 text-yellow-600" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600">Отправлено</p>
+                    <p className="text-2xl font-bold text-blue-600">1</p>
                   </div>
+                  <Truck className="w-8 h-8 text-blue-600" />
                 </div>
-                <div className="mt-4 flex gap-2">
-                  <Button size="sm" variant="outline">Подробнее</Button>
-                  <Button size="sm" variant="outline">Печать</Button>
-                  {order.status === 'processing' && (
-                    <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
-                      Отправить
-                    </Button>
-                  )}
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600">Доставлено</p>
+                    <p className="text-2xl font-bold text-green-600">1</p>
+                  </div>
+                  <CheckCircle className="w-8 h-8 text-green-600" />
                 </div>
-              </div>
-            ))}
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600">Общая сумма</p>
+                    <p className="text-2xl font-bold text-purple-600">₽182,290</p>
+                  </div>
+                  <ShoppingCart className="w-8 h-8 text-purple-600" />
+                </div>
+              </CardContent>
+            </Card>
           </div>
-        </CardContent>
-      </Card>
+
+          {/* Orders List */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <CalendarDays className="w-5 h-5 text-blue-600" />
+                История заказов
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {orders.map((order) => (
+                  <div key={order.id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="space-y-1">
+                          <div className="font-semibold text-lg">{order.id}</div>
+                          <div className="text-gray-600">{order.customer}</div>
+                          <div className="text-sm text-gray-500">{order.date}</div>
+                        </div>
+                        <div className="space-y-1">
+                          <div className="text-sm text-gray-600">Товаров: {order.items.length}</div>
+                          <div className="text-sm text-gray-600">Доставка: {order.delivery}</div>
+                        </div>
+                      </div>
+                      <div className="text-right space-y-2">
+                        <div className="text-xl font-bold text-gray-900">{order.amount}</div>
+                        <div className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm ${getStatusColor(order.status)}`}>
+                          {getStatusIcon(order.status)}
+                          {getStatusText(order.status)}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-3 text-sm text-gray-600">
+                      <strong>Состав заказа:</strong>
+                      <ul className="mt-1 list-disc list-inside">
+                        {order.items.map((item, index) => (
+                          <li key={index}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="mt-4 flex gap-2">
+                      <Button size="sm" variant="outline">Подробнее</Button>
+                      <Button size="sm" variant="outline">Печать</Button>
+                      {order.status === 'processing' && (
+                        <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+                          Отправить
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
