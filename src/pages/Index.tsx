@@ -8,14 +8,17 @@ import { OrdersContent } from "@/components/OrdersContent";
 import { ReportGeneratorContent } from "@/components/ReportGeneratorContent";
 import { DocumentsContent } from "@/components/DocumentsContent";
 import { ProfileContent } from "@/components/ProfileContent";
+import { MobileBottomMenu } from "@/components/MobileBottomMenu";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
+  const isMobile = useIsMobile();
 
   const renderContent = () => {
     switch (activeSection) {
       case "dashboard":
-        return <DashboardContent />;
+        return <DashboardContent onSectionChange={setActiveSection} />;
       case "warehouse":
         return <WarehouseContent />;
       case "orders":
@@ -27,17 +30,30 @@ const Index = () => {
       case "profile":
         return <ProfileContent />;
       default:
-        return <DashboardContent />;
+        return <DashboardContent onSectionChange={setActiveSection} />;
     }
   };
 
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
-        <AppSidebar activeSection={activeSection} onSectionChange={setActiveSection} />
+        {/* Desktop Sidebar */}
+        {!isMobile && (
+          <AppSidebar activeSection={activeSection} onSectionChange={setActiveSection} />
+        )}
+        
+        {/* Main Content */}
         <main className="flex-1 overflow-auto">
           {renderContent()}
         </main>
+
+        {/* Mobile Bottom Menu */}
+        {isMobile && (
+          <MobileBottomMenu 
+            activeSection={activeSection} 
+            onSectionChange={setActiveSection} 
+          />
+        )}
       </div>
     </SidebarProvider>
   );
