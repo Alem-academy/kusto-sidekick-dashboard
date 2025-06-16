@@ -1,212 +1,221 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-import { 
-  Package, 
-  ShoppingCart, 
-  AlertTriangle, 
-  Calendar,
-  TrendingUp
-} from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { TrendingUp, Package, ShoppingCart, Users, AlertTriangle } from "lucide-react";
+
+const revenueData = [
+  { month: "Янв", revenue: 4500000 },
+  { month: "Фев", revenue: 3800000 },
+  { month: "Мар", revenue: 5200000 },
+  { month: "Апр", revenue: 4900000 },
+  { month: "Май", revenue: 6100000 },
+  { month: "Июн", revenue: 5800000 },
+];
+
+const categoryData = [
+  { name: "Молочные продукты", value: 35, color: "#3B82F6" },
+  { name: "Мясные изделия", value: 25, color: "#EF4444" },
+  { name: "Овощи и фрукты", value: 20, color: "#10B981" },
+  { name: "Хлебобулочные", value: 20, color: "#F59E0B" },
+];
 
 export function DashboardContent() {
-  const widgets = [
-    {
-      title: "Общий остаток товаров",
-      value: "12,847",
-      unit: "шт.",
-      change: "+2.5%",
-      changeType: "positive",
-      icon: Package,
-      color: "blue"
-    },
-    {
-      title: "Заказы в обработке",
-      value: "23",
-      unit: "шт.",
-      change: "+12%",
-      changeType: "positive",
-      icon: ShoppingCart,
-      color: "green"
-    },
-    {
-      title: "Критический остаток",
-      value: "18",
-      unit: "позиций",
-      change: "-3",
-      changeType: "negative",
-      icon: AlertTriangle,
-      color: "red"
-    },
-    {
-      title: "Истекающие сроки годности",
-      value: "7",
-      unit: "позиций",
-      change: "+2",
-      changeType: "neutral",
-      icon: Calendar,
-      color: "orange"
-    }
-  ];
-
-  const recentOperations = [
-    { id: "OP-001", type: "Поступление", product: "Сок яблочный 1л", quantity: "+150 шт.", date: "16.06.2025 14:30", status: "Завершено" },
-    { id: "OP-002", type: "Отгрузка", product: "Сок апельсиновый 0.5л", quantity: "-80 шт.", date: "16.06.2025 12:15", status: "Завершено" },
-    { id: "OP-003", type: "Перемещение", product: "Сок томатный 1л", quantity: "45 шт.", date: "16.06.2025 10:45", status: "В процессе" },
-    { id: "OP-004", type: "Списание", product: "Сок мультифрукт 0.2л", quantity: "-12 шт.", date: "15.06.2025 16:20", status: "Завершено" },
-    { id: "OP-005", type: "Поступление", product: "Сок виноградный 1л", quantity: "+25 шт.", date: "15.06.2025 13:10", status: "Завершено" },
-  ];
-
-  const chartData = [
-    { date: '10.06', incoming: 420, outgoing: 380 },
-    { date: '11.06', incoming: 380, outgoing: 420 },
-    { date: '12.06', incoming: 520, outgoing: 350 },
-    { date: '13.06', incoming: 340, outgoing: 480 },
-    { date: '14.06', incoming: 460, outgoing: 320 },
-    { date: '15.06', incoming: 520, outgoing: 390 },
-    { date: '16.06', incoming: 480, outgoing: 410 },
-  ];
-
-  const chartConfig = {
-    incoming: {
-      label: "Поступления",
-      color: "#3b82f6",
-    },
-    outgoing: {
-      label: "Отгрузки", 
-      color: "#ef4444",
-    },
-  };
-
   return (
     <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Личный кабинет</h1>
-          <p className="text-gray-600 mt-1">Добро пожаловать в систему управления MKS-Kusto</p>
-        </div>
-        <div className="text-sm text-gray-500">
-          Последнее обновление: {new Date().toLocaleString('ru-RU')}
-        </div>
+      <div>
+        <h1 className="text-3xl font-bold text-gray-900">Главная панель</h1>
+        <p className="text-gray-600 mt-1">Добро пожаловать в систему управления складом МКС</p>
       </div>
 
-      {/* Widgets Grid */}
+      {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {widgets.map((widget, index) => (
-          <Card key={index} className="hover:shadow-lg transition-shadow duration-200">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">
-                {widget.title}
-              </CardTitle>
-              <div className={`p-2 rounded-lg ${
-                widget.color === 'blue' ? 'bg-blue-100' :
-                widget.color === 'green' ? 'bg-green-100' :
-                widget.color === 'red' ? 'bg-red-100' :
-                'bg-orange-100'
-              }`}>
-                <widget.icon className={`w-4 h-4 ${
-                  widget.color === 'blue' ? 'text-blue-600' :
-                  widget.color === 'green' ? 'text-green-600' :
-                  widget.color === 'red' ? 'text-red-600' :
-                  'text-orange-600'
-                }`} />
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Общий оборот</p>
+                <p className="text-2xl font-bold text-green-600">₸ 28,300,000</p>
+                <p className="text-xs text-green-600 mt-1">+12% к пред. месяцу</p>
               </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-gray-900">
-                {widget.value} <span className="text-sm font-normal text-gray-500">{widget.unit}</span>
-              </div>
-              <div className={`text-xs flex items-center mt-1 ${
-                widget.changeType === 'positive' ? 'text-green-600' : 
-                widget.changeType === 'negative' ? 'text-red-600' : 'text-gray-500'
-              }`}>
-                {widget.changeType === 'positive' && <TrendingUp className="w-3 h-3 mr-1" />}
-                {widget.change} за неделю
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent Operations Table */}
-        <Card className="lg:col-span-1">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Package className="w-5 h-5 text-blue-600" />
-              Последние операции
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Тип</TableHead>
-                  <TableHead>Товар</TableHead>
-                  <TableHead>Количество</TableHead>
-                  <TableHead>Статус</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {recentOperations.map((operation) => (
-                  <TableRow key={operation.id}>
-                    <TableCell className="font-medium">{operation.type}</TableCell>
-                    <TableCell>{operation.product}</TableCell>
-                    <TableCell className={
-                      operation.quantity.startsWith('+') ? 'text-green-600' :
-                      operation.quantity.startsWith('-') ? 'text-red-600' : 'text-gray-600'
-                    }>
-                      {operation.quantity}
-                    </TableCell>
-                    <TableCell>
-                      <span className={`text-xs px-2 py-1 rounded-full ${
-                        operation.status === 'Завершено' ? 'bg-green-100 text-green-800' :
-                        'bg-yellow-100 text-yellow-800'
-                      }`}>
-                        {operation.status}
-                      </span>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+              <TrendingUp className="w-8 h-8 text-green-600" />
+            </div>
           </CardContent>
         </Card>
 
-        {/* Chart */}
-        <Card className="lg:col-span-1">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Товаров на складе</p>
+                <p className="text-2xl font-bold text-blue-600">1,247</p>
+                <p className="text-xs text-blue-600 mt-1">156 новых позиций</p>
+              </div>
+              <Package className="w-8 h-8 text-blue-600" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Активных заказов</p>
+                <p className="text-2xl font-bold text-orange-600">89</p>
+                <p className="text-xs text-orange-600 mt-1">23 в обработке</p>
+              </div>
+              <ShoppingCart className="w-8 h-8 text-orange-600" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Активных клиентов</p>
+                <p className="text-2xl font-bold text-purple-600">342</p>
+                <p className="text-xs text-purple-600 mt-1">+28 новых</p>
+              </div>
+              <Users className="w-8 h-8 text-purple-600" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Charts Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-purple-600" />
-              График движения товаров
+              <TrendingUp className="w-5 h-5 text-blue-600" />
+              Оборот по месяцам (₸)
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={chartConfig} className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={chartData}>
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Line 
-                    type="monotone" 
-                    dataKey="incoming" 
-                    stroke={chartConfig.incoming.color}
-                    strokeWidth={2}
-                    dot={{ fill: chartConfig.incoming.color, strokeWidth: 2, r: 4 }}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="outgoing" 
-                    stroke={chartConfig.outgoing.color}
-                    strokeWidth={2}
-                    dot={{ fill: chartConfig.outgoing.color, strokeWidth: 2, r: 4 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </ChartContainer>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={revenueData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis tickFormatter={(value) => `${(value / 1000000).toFixed(1)}М`} />
+                <Tooltip formatter={(value) => [`₸ ${value.toLocaleString('ru-RU')}`, "Оборот"]} />
+                <Bar dataKey="revenue" fill="#3B82F6" />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Package className="w-5 h-5 text-green-600" />
+              Структура товаров
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={categoryData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={120}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {categoryData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(value) => [`${value}%`, "Доля"]} />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="grid grid-cols-2 gap-2 mt-4">
+              {categoryData.map((item, index) => (
+                <div key={index} className="flex items-center gap-2 text-sm">
+                  <div 
+                    className="w-3 h-3 rounded-full" 
+                    style={{ backgroundColor: item.color }}
+                  ></div>
+                  <span>{item.name}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Recent Activity & Alerts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Последние операции</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                <div>
+                  <p className="font-medium">Поступление товара</p>
+                  <p className="text-sm text-gray-600">Молочные продукты - 150 единиц</p>
+                </div>
+                <div className="text-right">
+                  <p className="font-bold text-green-600">₸ 450,000</p>
+                  <p className="text-xs text-gray-500">2 часа назад</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                <div>
+                  <p className="font-medium">Заказ отправлен</p>
+                  <p className="text-sm text-gray-600">Заказ #1247 - ТОО "Алматы Продукт"</p>
+                </div>
+                <div className="text-right">
+                  <p className="font-bold text-blue-600">₸ 125,500</p>
+                  <p className="text-xs text-gray-500">4 часа назад</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
+                <div>
+                  <p className="font-medium">Новый заказ</p>
+                  <p className="text-sm text-gray-600">Заказ #1248 - ИП "Қасымов"</p>
+                </div>
+                <div className="text-right">
+                  <p className="font-bold text-orange-600">₸ 89,200</p>
+                  <p className="text-xs text-gray-500">6 часов назад</p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5 text-red-600" />
+              Уведомления
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="p-3 bg-red-50 border-l-4 border-red-400 rounded">
+                <p className="font-medium text-red-800">Критический остаток</p>
+                <p className="text-sm text-red-600">Молоко 3.2% - осталось 5 единиц</p>
+                <p className="text-xs text-red-500 mt-1">Требуется пополнение</p>
+              </div>
+              
+              <div className="p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded">
+                <p className="font-medium text-yellow-800">Истекает срок годности</p>
+                <p className="text-sm text-yellow-600">Творог "Алматы" - до 18.06.2025</p>
+                <p className="text-xs text-yellow-500 mt-1">Осталось 2 дня</p>
+              </div>
+              
+              <div className="p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
+                <p className="font-medium text-blue-800">Просроченный заказ</p>
+                <p className="text-sm text-blue-600">Заказ #1245 - задержка доставки</p>
+                <p className="text-xs text-blue-500 mt-1">Свяжитесь с клиентом</p>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
