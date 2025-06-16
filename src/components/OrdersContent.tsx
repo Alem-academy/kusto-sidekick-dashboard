@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ShoppingCart, Plus, Truck, Clock, CheckCircle, CalendarDays } from "lucide-react";
+import { ShoppingCart, Plus, Truck, Clock, CheckCircle, CalendarDays, Users, MapPin } from "lucide-react";
 
 export function OrdersContent() {
   const orders = [
@@ -44,6 +44,21 @@ export function OrdersContent() {
       items: ["Сок персиковый Rich 1л - 80 шт"],
       delivery: "Самовывоз"
     },
+  ];
+
+  const clients = [
+    {
+      id: 1,
+      name: "ТОО 'Ресторанный Двор'",
+      contact: "Иванов Иван Иванович",
+      phone: "+7 (777) 123-45-67",
+      email: "ivanov@restaurant-dvor.kz",
+      deliveryPoints: [
+        { id: 1, name: "Ресторан на Абая", address: "ул. Абая, 150, Алматы" },
+        { id: 2, name: "Ресторан на Сатпаева", address: "ул. Сатпаева, 90, Алматы" },
+        { id: 3, name: "Кафе в ТРЦ Мега", address: "ТРЦ Мега Алматы, 2 этаж" }
+      ]
+    }
   ];
 
   const getStatusIcon = (status: string) => {
@@ -90,15 +105,66 @@ export function OrdersContent() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Заказы и доставка</h1>
-          <p className="text-gray-600 mt-1">Управление заказами и отслеживание доставки</p>
+          <p className="text-gray-600 mt-1">Управление клиентами, заказами и отслеживание доставки</p>
         </div>
       </div>
 
-      <Tabs defaultValue="create" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
+      <Tabs defaultValue="clients" className="w-full">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="clients">Мои клиенты</TabsTrigger>
           <TabsTrigger value="create">Создать заказ</TabsTrigger>
           <TabsTrigger value="history">История заказов</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="clients" className="space-y-6">
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-semibold">Список клиентов</h2>
+            <Button className="bg-blue-600 hover:bg-blue-700">
+              <Plus className="w-4 h-4 mr-2" />
+              Добавить клиента
+            </Button>
+          </div>
+
+          {/* Client Cards */}
+          <div className="grid gap-6">
+            {clients.map((client) => (
+              <Card key={client.id} className="p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900">{client.name}</h3>
+                    <p className="text-gray-600">{client.contact}</p>
+                    <div className="flex gap-4 mt-2 text-sm text-gray-500">
+                      <span>{client.phone}</span>
+                      <span>{client.email}</span>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline">Редактировать</Button>
+                    <Button size="sm" className="bg-blue-600 hover:bg-blue-700">Создать заказ</Button>
+                  </div>
+                </div>
+
+                <div className="border-t pt-4">
+                  <h4 className="font-medium text-gray-900 mb-3 flex items-center gap-2">
+                    <MapPin className="w-4 h-4" />
+                    Точки доставки ({client.deliveryPoints.length})
+                  </h4>
+                  <div className="grid gap-3">
+                    {client.deliveryPoints.map((point) => (
+                      <div key={point.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div>
+                          <p className="font-medium text-gray-900">{point.name}</p>
+                          <p className="text-sm text-gray-600">{point.address}</p>
+                        </div>
+                        <Button size="sm" variant="outline">Редактировать</Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
 
         <TabsContent value="create" className="space-y-6">
           <Card>
@@ -109,12 +175,31 @@ export function OrdersContent() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
+              {/* Client and Delivery Point Selection */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <Label htmlFor="client-select">Выберите клиента</Label>
+                  <select id="client-select" className="w-full h-10 px-3 py-2 border border-gray-300 rounded-md">
+                    <option value="">Выберите клиента...</option>
+                    <option value="1">ТОО "Ресторанный Двор"</option>
+                    <option value="2">ООО "Вкусмарт"</option>
+                    <option value="3">ИП Сокова А.А.</option>
+                  </select>
+                </div>
+                <div>
+                  <Label htmlFor="delivery-point-select">Выберите точку доставки</Label>
+                  <select id="delivery-point-select" className="w-full h-10 px-3 py-2 border border-gray-300 rounded-md">
+                    <option value="">Выберите точку доставки...</option>
+                    <option value="1">Ресторан на Абая</option>
+                    <option value="2">Ресторан на Сатпаева</option>
+                    <option value="3">Кафе в ТРЦ Мега</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Order Details */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="customer">Заказчик</Label>
-                    <Input id="customer" placeholder="Название организации или ФИО" />
-                  </div>
                   <div>
                     <Label htmlFor="phone">Телефон</Label>
                     <Input id="phone" placeholder="+7 (___) ___-__-__" />
@@ -137,13 +222,10 @@ export function OrdersContent() {
                     <Label htmlFor="delivery-date">Дата доставки</Label>
                     <Input id="delivery-date" type="date" />
                   </div>
-                  <div>
-                    <Label htmlFor="address">Адрес доставки</Label>
-                    <Input id="address" placeholder="Адрес доставки" />
-                  </div>
                 </div>
               </div>
 
+              {/* Products Selection */}
               <Card className="bg-gray-50">
                 <CardHeader>
                   <CardTitle className="text-lg">Товары в заказе</CardTitle>
