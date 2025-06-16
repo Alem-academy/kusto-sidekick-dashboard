@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,7 +11,7 @@ export function OrdersContent() {
       id: "#ORD-001",
       customer: "ООО Вкусмарт",
       date: "15.06.2025",
-      amount: "₽45,680",
+      amount: "₸45,680",
       status: "processing",
       items: ["Сок яблочный Rich 1л - 50 шт", "Сок апельсиновый Tropicana 1л - 30 шт"],
       delivery: "Самовывоз"
@@ -21,7 +20,7 @@ export function OrdersContent() {
       id: "#ORD-002",
       customer: "ИП Сокова А.А.",
       date: "14.06.2025",
-      amount: "₽12,340",
+      amount: "₸12,340",
       status: "shipped",
       items: ["Сок мультифрукт Добрый 0.5л - 120 шт"],
       delivery: "Курьер"
@@ -30,7 +29,7 @@ export function OrdersContent() {
       id: "#ORD-003",
       customer: "ООО Фрешторг",
       date: "14.06.2025",
-      amount: "₽89,750",
+      amount: "₸89,750",
       status: "delivered",
       items: ["Сок томатный Я 1л - 200 шт", "Сок виноградный Santal 1л - 150 шт"],
       delivery: "Транспортная компания"
@@ -39,7 +38,7 @@ export function OrdersContent() {
       id: "#ORD-004",
       customer: "ЗАО Соколенд",
       date: "13.06.2025",
-      amount: "₽34,520",
+      amount: "₸34,520",
       status: "processing",
       items: ["Сок персиковый Rich 1л - 80 шт"],
       delivery: "Самовывоз"
@@ -317,7 +316,7 @@ export function OrdersContent() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-gray-600">Общая сумма</p>
-                    <p className="text-2xl font-bold text-purple-600">₽182,290</p>
+                    <p className="text-2xl font-bold text-purple-600">₸182,290</p>
                   </div>
                   <ShoppingCart className="w-8 h-8 text-purple-600" />
                 </div>

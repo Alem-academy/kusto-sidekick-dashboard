@@ -1,4 +1,3 @@
-
 import { 
   Home, 
   Package, 
@@ -49,7 +48,7 @@ export function AppSidebar({ activeSection, onSectionChange }: AppSidebarProps) 
           </div>
           {!collapsed && (
             <div>
-              <h2 className="font-semibold text-gray-900">MKS-Kusto</h2>
+              <h2 className="font-semibold text-gray-900">ИП "Соки и напитки"</h2>
               <p className="text-sm text-gray-500">Личный кабинет</p>
             </div>
           )}

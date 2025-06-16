@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { TrendingUp, Package, ShoppingCart, Users, AlertTriangle } from "lucide-react";
@@ -14,10 +13,10 @@ const revenueData = [
 ];
 
 const categoryData = [
-  { name: "Молочные продукты", value: 35, color: "#3B82F6" },
-  { name: "Мясные изделия", value: 25, color: "#EF4444" },
-  { name: "Овощи и фрукты", value: 20, color: "#10B981" },
-  { name: "Хлебобулочные", value: 20, color: "#F59E0B" },
+  { name: "Соки фруктовые", value: 35, color: "#3B82F6" },
+  { name: "Соки овощные", value: 25, color: "#EF4444" },
+  { name: "Нектары", value: 20, color: "#10B981" },
+  { name: "Морсы и компоты", value: 20, color: "#F59E0B" },
 ];
 
 interface DashboardContentProps {
@@ -29,7 +28,7 @@ export function DashboardContent({ onSectionChange }: DashboardContentProps) {
     <div className="p-4 md:p-6 space-y-6 pb-20 md:pb-6">
       <div>
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Главная панель</h1>
-        <p className="text-gray-600 mt-1">Добро пожаловать в систему управления складом МКС</p>
+        <p className="text-gray-600 mt-1">Добро пожаловать в систему управления складом ИП "Соки и напитки"</p>
       </div>
 
       {/* Mobile Section Icons */}
@@ -164,7 +163,7 @@ export function DashboardContent({ onSectionChange }: DashboardContentProps) {
               <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
                 <div className="min-w-0 flex-1">
                   <p className="font-medium text-sm">Поступление товара</p>
-                  <p className="text-xs text-gray-600 truncate">Молочные продукты - 150 единиц</p>
+                  <p className="text-xs text-gray-600 truncate">Соки фруктовые - 150 единиц</p>
                 </div>
                 <div className="text-right ml-2">
                   <p className="font-bold text-green-600 text-sm">₸ 450К</p>
@@ -208,12 +207,12 @@ export function DashboardContent({ onSectionChange }: DashboardContentProps) {
             <div className="space-y-3">
               <div className="p-3 bg-red-50 border-l-4 border-red-400 rounded">
                 <p className="font-medium text-red-800 text-sm">Критический остаток</p>
-                <p className="text-xs text-red-600">Молоко 3.2% - осталось 5 единиц</p>
+                <p className="text-xs text-red-600">Сок яблочный - осталось 5 единиц</p>
               </div>
               
               <div className="p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded">
                 <p className="font-medium text-yellow-800 text-sm">Истекает срок</p>
-                <p className="text-xs text-yellow-600">Творог "Алматы" - до 18.06.2025</p>
+                <p className="text-xs text-yellow-600">Сок апельсиновый "Добрый" - до 18.06.2025</p>
               </div>
               
               <div className="p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
