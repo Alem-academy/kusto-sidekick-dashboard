@@ -5,7 +5,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { DashboardContent } from "@/components/DashboardContent";
 import { WarehouseContent } from "@/components/WarehouseContent";
 import { OrdersContent } from "@/components/OrdersContent";
-import { ReportsContent } from "@/components/ReportsContent";
+import { ReportGeneratorContent } from "@/components/ReportGeneratorContent";
 import { DocumentsContent } from "@/components/DocumentsContent";
 import { ProfileContent } from "@/components/ProfileContent";
 
@@ -21,7 +21,7 @@ const Index = () => {
       case "orders":
         return <OrdersContent />;
       case "reports":
-        return <ReportsContent />;
+        return <ReportGeneratorContent />;
       case "documents":
         return <DocumentsContent />;
       case "profile":
