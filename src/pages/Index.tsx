@@ -13,7 +13,7 @@ import { DocumentsContent } from "@/components/DocumentsContent";
 import { ProfileContent } from "@/components/ProfileContent";
 import { ConceptContent } from "@/components/ConceptContent";
 import { SupportContent } from "@/components/SupportContent";
-import { MobileBottomMenu } from "@/components/MobileBottomMenu";
+import { MobileHeader } from "@/components/MobileHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const Index = () => {
@@ -52,23 +52,23 @@ const Index = () => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
+        {/* Mobile Header */}
+        {isMobile && (
+          <MobileHeader 
+            activeSection={activeSection} 
+            onSectionChange={setActiveSection} 
+          />
+        )}
+
         {/* Desktop Sidebar */}
         {!isMobile && (
           <AppSidebar activeSection={activeSection} onSectionChange={setActiveSection} />
         )}
         
         {/* Main Content */}
-        <main className={`flex-1 overflow-auto ${isMobile ? 'pb-16' : ''}`}>
+        <main className="flex-1 overflow-auto">
           {renderContent()}
         </main>
-
-        {/* Mobile Bottom Menu */}
-        {isMobile && (
-          <MobileBottomMenu 
-            activeSection={activeSection} 
-            onSectionChange={setActiveSection} 
-          />
-        )}
       </div>
     </SidebarProvider>
   );
