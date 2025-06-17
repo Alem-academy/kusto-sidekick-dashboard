@@ -6,6 +6,8 @@ export interface DeliveryItem {
   plannedQuantity: number;
   actualQuantity?: number;
   unit: string;
+  declaredUnitPrice?: number; // Объявленная стоимость единицы
+  declaredTotalPrice?: number; // Общая объявленная стоимость партии
 }
 
 export interface DeliveryRequest {

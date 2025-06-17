@@ -48,7 +48,9 @@ export function CreateDeliveryForm({ onSuccess }: CreateDeliveryFormProps) {
       sku: "",
       name: "",
       plannedQuantity: 0,
-      unit: "шт"
+      unit: "шт",
+      declaredUnitPrice: undefined,
+      declaredTotalPrice: undefined
     };
     setItems([...items, newItem]);
   };
@@ -72,6 +74,15 @@ export function CreateDeliveryForm({ onSuccess }: CreateDeliveryFormProps) {
 
   const removeDocument = (index: number) => {
     setDocuments(documents.filter((_, i) => i !== index));
+  };
+
+  const calculateTotalDeclaredValue = () => {
+    return items.reduce((total, item) => {
+      const itemValue = item.declaredTotalPrice || 
+        (item.declaredUnitPrice && item.plannedQuantity ? 
+          item.declaredUnitPrice * item.plannedQuantity : 0);
+      return total + itemValue;
+    }, 0);
   };
 
   const onSubmit = (data: DeliveryFormData) => {
@@ -103,12 +114,19 @@ export function CreateDeliveryForm({ onSuccess }: CreateDeliveryFormProps) {
       return;
     }
 
+    const totalDeclaredValue = calculateTotalDeclaredValue();
+    
     // Здесь будет отправка данных на сервер
-    console.log("Создание заявки:", { ...data, items, documents });
+    console.log("Создание заявки:", { 
+      ...data, 
+      items, 
+      documents,
+      totalDeclaredValue
+    });
     
     toast({
       title: "Успешно",
-      description: "Заявка на поставку создана"
+      description: `Заявка на поставку создана${totalDeclaredValue > 0 ? `. Общая объявленная стоимость: ${totalDeclaredValue.toLocaleString()} тенге` : ""}`
     });
     
     form.reset();
@@ -116,6 +134,8 @@ export function CreateDeliveryForm({ onSuccess }: CreateDeliveryFormProps) {
     setDocuments([]);
     onSuccess();
   };
+
+  const totalDeclaredValue = calculateTotalDeclaredValue();
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -139,6 +159,25 @@ export function CreateDeliveryForm({ onSuccess }: CreateDeliveryFormProps) {
                 onUpdateItem={updateItem}
                 onRemoveItem={removeItem}
               />
+
+              {/* Сводка по объявленной стоимости */}
+              {totalDeclaredValue > 0 && (
+                <Card className="bg-blue-50 border-blue-200">
+                  <CardContent className="pt-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-blue-800">
+                        Общая объявленная стоимость:
+                      </span>
+                      <span className="text-lg font-bold text-blue-900">
+                        {totalDeclaredValue.toLocaleString()} тенге
+                      </span>
+                    </div>
+                    <p className="text-xs text-blue-600 mt-1">
+                      Эта сумма будет использована для расчета страхового возмещения
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
 
               {/* Документы */}
               <DeliveryDocuments

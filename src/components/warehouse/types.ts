@@ -6,6 +6,7 @@ export interface Batch {
   expiryDate: string;
   status: "good" | "low" | "critical";
   purchasePrice: number;
+  declaredPrice?: number; // Объявленная стоимость единицы
 }
 
 export interface WarehouseItem {
@@ -16,6 +17,7 @@ export interface WarehouseItem {
   batches: Batch[];
   totalValue: number;
   minStockLevel: number;
+  declaredTotalValue?: number; // Общая объявленная стоимость
 }
 
 export type FilterType = "all" | "lowStock" | "expiryRisk";
