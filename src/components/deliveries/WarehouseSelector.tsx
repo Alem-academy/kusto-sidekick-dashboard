@@ -1,4 +1,3 @@
-
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Control } from "react-hook-form";
@@ -11,22 +10,22 @@ const warehouses = [
   {
     id: "warehouse-1",
     name: "Основной склад",
-    address: "г. Москва, ул. Складская, д. 15"
+    address: "г. Алматы, ул. Складская, д. 15"
   },
   {
     id: "warehouse-2", 
     name: "Центральный склад",
-    address: "г. Москва, ул. Промышленная, д. 42"
+    address: "г. Алматы, ул. Промышленная, д. 42"
   },
   {
     id: "warehouse-3",
     name: "Восточный склад",
-    address: "г. Москва, ул. Логистическая, д. 8"
+    address: "г. Шымкент, ул. Логистическая, д. 8"
   },
   {
     id: "warehouse-4",
     name: "Северный распределительный центр",
-    address: "г. Москва, ш. Ленинградское, д. 125"
+    address: "г. Астана, пр. Туран, д. 125"
   }
 ];
 
