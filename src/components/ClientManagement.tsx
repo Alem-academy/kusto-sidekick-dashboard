@@ -1,11 +1,12 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Search, Plus, MapPin, List, Map, Edit, ToggleLeft, ToggleRight, Users, Building } from "lucide-react";
+import { Search, MapPin, List, Map, Edit, ToggleLeft, ToggleRight, Users, Building } from "lucide-react";
+import { AddClientModal } from "./clients/AddClientModal";
+import { AddDeliveryPointModal } from "./clients/AddDeliveryPointModal";
 
 interface DeliveryPoint {
   id: number;
@@ -120,8 +121,9 @@ export function ClientManagement() {
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
   const [sortBy, setSortBy] = useState<keyof DeliveryPoint>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [clients, setClients] = useState(mockClients);
 
-  const filteredClients = mockClients.filter(client =>
+  const filteredClients = clients.filter(client =>
     client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     client.bin.includes(searchTerm)
   );
@@ -157,10 +159,59 @@ export function ClientManagement() {
         : point
     );
     
-    setSelectedClient({
+    const updatedClient = {
       ...selectedClient,
       deliveryPoints: updatedPoints
-    });
+    };
+    
+    setSelectedClient(updatedClient);
+    setClients(prev => prev.map(client => 
+      client.id === selectedClient.id ? updatedClient : client
+    ));
+  };
+
+  const handleAddClient = (newClientData: {
+    name: string;
+    bin: string;
+    contact: string;
+    phone: string;
+    email: string;
+  }) => {
+    const newClient: Client = {
+      id: Math.max(...clients.map(c => c.id)) + 1,
+      ...newClientData,
+      deliveryPoints: []
+    };
+    
+    setClients(prev => [...prev, newClient]);
+    console.log('Добавлен новый клиент:', newClient);
+  };
+
+  const handleAddDeliveryPoint = (newPointData: {
+    name: string;
+    address: string;
+    contact: string;
+    phone: string;
+  }) => {
+    if (!selectedClient) return;
+    
+    const newPoint: DeliveryPoint = {
+      id: Math.max(...selectedClient.deliveryPoints.map(p => p.id), 0) + 1,
+      ...newPointData,
+      status: 'active'
+    };
+    
+    const updatedClient = {
+      ...selectedClient,
+      deliveryPoints: [...selectedClient.deliveryPoints, newPoint]
+    };
+    
+    setSelectedClient(updatedClient);
+    setClients(prev => prev.map(client => 
+      client.id === selectedClient.id ? updatedClient : client
+    ));
+    
+    console.log('Добавлена новая точка доставки:', newPoint);
   };
 
   return (
@@ -174,10 +225,7 @@ export function ClientManagement() {
                 <Users className="w-5 h-5 text-blue-600" />
                 Клиенты
               </CardTitle>
-              <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
-                <Plus className="w-4 h-4 mr-1" />
-                Добавить
-              </Button>
+              <AddClientModal onAddClient={handleAddClient} />
             </div>
             
             {/* Поиск */}
@@ -248,10 +296,7 @@ export function ClientManagement() {
                       <Edit className="w-4 h-4 mr-2" />
                       Редактировать клиента
                     </Button>
-                    <Button className="bg-blue-600 hover:bg-blue-700">
-                      <Plus className="w-4 h-4 mr-2" />
-                      Добавить точку доставки
-                    </Button>
+                    <AddDeliveryPointModal onAddDeliveryPoint={handleAddDeliveryPoint} />
                   </div>
                 </div>
               </CardContent>
