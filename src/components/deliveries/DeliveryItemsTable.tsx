@@ -22,7 +22,8 @@ export function DeliveryItemsTable({
   onRemoveItem 
 }: DeliveryItemsTableProps) {
   
-  const handleUnitPriceChange = (itemId: string, unitPrice: number) => {
+  const handleUnitPriceBlur = (itemId: string, unitPriceValue: string) => {
+    const unitPrice = parseFloat(unitPriceValue) || 0;
     const item = items.find(item => item.id === itemId);
     onUpdateItem(itemId, "declaredUnitPrice", unitPrice);
     
@@ -33,7 +34,8 @@ export function DeliveryItemsTable({
     }
   };
 
-  const handleTotalPriceChange = (itemId: string, totalPrice: number) => {
+  const handleTotalPriceBlur = (itemId: string, totalPriceValue: string) => {
+    const totalPrice = parseFloat(totalPriceValue) || 0;
     const item = items.find(item => item.id === itemId);
     onUpdateItem(itemId, "declaredTotalPrice", totalPrice);
     
@@ -44,7 +46,8 @@ export function DeliveryItemsTable({
     }
   };
 
-  const handleQuantityChange = (itemId: string, quantity: number) => {
+  const handleQuantityBlur = (itemId: string, quantityValue: string) => {
+    const quantity = parseInt(quantityValue) || 0;
     const item = items.find(item => item.id === itemId);
     onUpdateItem(itemId, "plannedQuantity", quantity);
     
@@ -118,7 +121,9 @@ export function DeliveryItemsTable({
                           type="number"
                           min="1"
                           value={item.plannedQuantity || ""}
-                          onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value) || 0)}
+                          onChange={(e) => onUpdateItem(item.id, "plannedQuantity", parseInt(e.target.value) || 0)}
+                          onBlur={(e) => handleQuantityBlur(item.id, e.target.value)}
+                          className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
                         />
                       </TableCell>
                       <TableCell>
@@ -144,8 +149,10 @@ export function DeliveryItemsTable({
                           min="0"
                           step="0.01"
                           value={item.declaredUnitPrice || ""}
-                          onChange={(e) => handleUnitPriceChange(item.id, parseFloat(e.target.value) || 0)}
+                          onChange={(e) => onUpdateItem(item.id, "declaredUnitPrice", parseFloat(e.target.value) || 0)}
+                          onBlur={(e) => handleUnitPriceBlur(item.id, e.target.value)}
                           placeholder="0.00"
+                          className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
                         />
                       </TableCell>
                       <TableCell>
@@ -154,8 +161,10 @@ export function DeliveryItemsTable({
                           min="0"
                           step="0.01"
                           value={item.declaredTotalPrice || ""}
-                          onChange={(e) => handleTotalPriceChange(item.id, parseFloat(e.target.value) || 0)}
+                          onChange={(e) => onUpdateItem(item.id, "declaredTotalPrice", parseFloat(e.target.value) || 0)}
+                          onBlur={(e) => handleTotalPriceBlur(item.id, e.target.value)}
                           placeholder="0.00"
+                          className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
                         />
                       </TableCell>
                       <TableCell>
