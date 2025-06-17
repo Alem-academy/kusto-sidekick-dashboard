@@ -10,7 +10,8 @@ import {
   Building2,
   Lightbulb,
   HelpCircle,
-  Users
+  Users,
+  Truck
 } from "lucide-react";
 import {
   Sidebar,
@@ -35,6 +36,7 @@ const menuItems = [
   { id: "warehouse", title: "Склад и остатки", icon: Package },
   { id: "clients", title: "Мои клиенты", icon: Users },
   { id: "orders", title: "Заказы и доставка", icon: ShoppingCart },
+  { id: "deliveries", title: "Поставки", icon: Truck },
   { id: "reports", title: "Отчеты", icon: BarChart3 },
   { id: "documents", title: "Документы", icon: FileText },
   { id: "profile", title: "Профиль", icon: User },

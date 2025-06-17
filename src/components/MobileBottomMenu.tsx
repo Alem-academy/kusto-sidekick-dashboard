@@ -8,7 +8,8 @@ import {
   User,
   Lightbulb,
   HelpCircle,
-  Users
+  Users,
+  Truck
 } from "lucide-react";
 
 interface MobileBottomMenuProps {
@@ -21,6 +22,7 @@ const menuItems = [
   { id: "warehouse", title: "Склад", icon: Package },
   { id: "clients", title: "Клиенты", icon: Users },
   { id: "orders", title: "Заказы", icon: ShoppingCart },
+  { id: "deliveries", title: "Поставки", icon: Truck },
   { id: "reports", title: "Отчеты", icon: BarChart3 },
   { id: "documents", title: "Документы", icon: FileText },
   { id: "profile", title: "Профиль", icon: User },

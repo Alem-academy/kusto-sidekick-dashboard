@@ -6,6 +6,7 @@ import { DashboardContent } from "@/components/DashboardContent";
 import { WarehouseContent } from "@/components/WarehouseContent";
 import { ClientsContent } from "@/components/ClientsContent";
 import { OrdersContent } from "@/components/OrdersContent";
+import { DeliveriesContent } from "@/components/DeliveriesContent";
 import { ReportsContent } from "@/components/ReportsContent";
 import { DocumentsContent } from "@/components/DocumentsContent";
 import { ProfileContent } from "@/components/ProfileContent";
@@ -28,6 +29,8 @@ const Index = () => {
         return <ClientsContent />;
       case "orders":
         return <OrdersContent />;
+      case "deliveries":
+        return <DeliveriesContent />;
       case "reports":
         return <ReportsContent />;
       case "documents":
