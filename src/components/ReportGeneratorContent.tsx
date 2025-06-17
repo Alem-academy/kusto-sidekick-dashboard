@@ -2,10 +2,8 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CalendarIcon, FileText, Download } from "lucide-react";
 import { format } from "date-fns";
@@ -62,21 +60,28 @@ export function ReportGeneratorContent() {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Report Type Selection */}
+          {/* Report Type Buttons */}
           <div className="space-y-2">
-            <Label htmlFor="report-type">Тип отчета</Label>
-            <Select value={reportType} onValueChange={setReportType}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Выберите тип отчета" />
-              </SelectTrigger>
-              <SelectContent>
-                {reportTypes.map((type) => (
-                  <SelectItem key={type.value} value={type.value}>
-                    {type.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Label>Тип отчета</Label>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {reportTypes.map((type) => (
+                <Button
+                  key={type.value}
+                  variant={reportType === type.value ? "default" : "outline"}
+                  onClick={() => setReportType(type.value)}
+                  className={cn(
+                    "h-auto p-4 text-center",
+                    reportType === type.value
+                      ? "bg-blue-600 hover:bg-blue-700 text-white"
+                      : "hover:bg-blue-50 hover:border-blue-300"
+                  )}
+                >
+                  <div className="space-y-1">
+                    <div className="font-medium">{type.label}</div>
+                  </div>
+                </Button>
+              ))}
+            </div>
           </div>
 
           {/* Date Range Selection */}
