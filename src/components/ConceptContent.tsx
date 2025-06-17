@@ -564,12 +564,60 @@ export function ConceptContent() {
                 <p className="text-slate-700 mb-6">
                   Мы готовы разработать и полностью адаптировать под ваши бизнес-процессы Личный Кабинет на специальных условиях.
                 </p>
-                <div className="bg-blue-50 p-6 rounded-lg border-2 border-blue-200">
+                <div className="bg-blue-50 p-6 rounded-lg border-2 border-blue-200 mb-6">
                   <h4 className="text-xl font-bold text-blue-800 mb-3">Инвестиция в разработку:</h4>
                   <div className="text-3xl font-bold text-blue-600 mb-2">25,000,000 - 40,000,000 ₸</div>
                   <p className="text-slate-600 text-sm">
                     Итоговая сумма зависит от выбранной скорости реализации и глубины кастомизации.
                   </p>
+                </div>
+                
+                {/* Подробный порядок оплаты */}
+                <div className="bg-slate-50 p-6 rounded-lg">
+                  <h4 className="text-lg font-bold text-slate-800 mb-4">Порядок оплаты (транши):</h4>
+                  
+                  <div className="space-y-6">
+                    <div className="border-l-4 border-blue-500 pl-4">
+                      <div className="flex items-center mb-2">
+                        <span className="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-3">30%</span>
+                        <h5 className="font-bold text-slate-800">Стартовый платеж</h5>
+                      </div>
+                      <p className="text-sm text-slate-600 mb-3"><strong>Когда:</strong> После подписания договора</p>
+                      <p className="text-sm text-slate-700 mb-3">
+                        Этот платеж инициирует проект и покрывает затраты на первый, самый важный этап — создание архитектурного и визуального фундамента будущего продукта.
+                      </p>
+                      <div className="bg-white p-4 rounded border-l-2 border-blue-200">
+                        <h6 className="font-semibold text-slate-800 mb-2">Что включает:</h6>
+                        <ul className="text-sm text-slate-700 space-y-1">
+                          <li>• <strong>Формирование проектной команды:</strong> Выделение и закрепление ключевых специалистов: менеджера проекта, системного архитектора и UX/UI дизайнера</li>
+                          <li>• <strong>Проектирование архитектуры:</strong> Серия воркшопов с вашей командой для изучения бизнес-процессов и создание технической архитектуры</li>
+                          <li>• <strong>UX/UI дизайн и прототипирование:</strong> Разработка интерактивных прототипов всех ключевых экранов системы</li>
+                        </ul>
+                      </div>
+                    </div>
+                    
+                    <div className="border-l-4 border-green-500 pl-4">
+                      <div className="flex items-center mb-2">
+                        <span className="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-3">40%</span>
+                        <h5 className="font-bold text-slate-800">После демонстрации MVP</h5>
+                      </div>
+                      <p className="text-sm text-slate-600 mb-3"><strong>Когда:</strong> После разработки и демонстрации рабочей версии</p>
+                      <p className="text-sm text-slate-700">
+                        Оплата после разработки и демонстрации рабочей версии с ключевым функционалом (например, «Склад и остатки» и «Заказы»).
+                      </p>
+                    </div>
+                    
+                    <div className="border-l-4 border-purple-500 pl-4">
+                      <div className="flex items-center mb-2">
+                        <span className="bg-purple-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-3">30%</span>
+                        <h5 className="font-bold text-slate-800">Финальный платеж</h5>
+                      </div>
+                      <p className="text-sm text-slate-600 mb-3"><strong>Когда:</strong> После завершения всех работ и запуска</p>
+                      <p className="text-sm text-slate-700">
+                        После полного завершения всех работ, тестирования и успешного запуска платформы.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
