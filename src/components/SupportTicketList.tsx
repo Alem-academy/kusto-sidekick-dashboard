@@ -1,14 +1,22 @@
 
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Plus, HelpCircle } from "lucide-react";
 import { SupportTicket } from "./SupportContent";
+import { CreateTicketModal } from "./CreateTicketModal";
 
 interface SupportTicketListProps {
   tickets: SupportTicket[];
   onTicketSelect: (ticket: SupportTicket) => void;
+  onCreateTicket: (ticketData: {
+    category: string;
+    subject: string;
+    message: string;
+    attachments?: string[];
+  }) => void;
 }
 
 const getStatusBadge = (status: SupportTicket['status']) => {
@@ -26,7 +34,18 @@ const getStatusBadge = (status: SupportTicket['status']) => {
   }
 };
 
-export function SupportTicketList({ tickets, onTicketSelect }: SupportTicketListProps) {
+export function SupportTicketList({ tickets, onTicketSelect, onCreateTicket }: SupportTicketListProps) {
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+  const handleCreateTicket = (ticketData: {
+    category: string;
+    subject: string;
+    message: string;
+    attachments?: string[];
+  }) => {
+    onCreateTicket(ticketData);
+  };
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -37,7 +56,10 @@ export function SupportTicketList({ tickets, onTicketSelect }: SupportTicketList
           </h1>
           <p className="text-gray-600 mt-1">Управление обращениями и тикетами</p>
         </div>
-        <Button className="bg-purple-600 hover:bg-purple-700 text-white">
+        <Button 
+          className="bg-purple-600 hover:bg-purple-700 text-white"
+          onClick={() => setIsCreateModalOpen(true)}
+        >
           <Plus className="w-4 h-4 mr-2" />
           Создать новый тикет
         </Button>
@@ -83,7 +105,10 @@ export function SupportTicketList({ tickets, onTicketSelect }: SupportTicketList
               <HelpCircle className="w-16 h-16 mx-auto mb-4 text-gray-300" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">Нет обращений</h3>
               <p className="text-gray-500 mb-4">У вас пока нет созданных тикетов поддержки</p>
-              <Button className="bg-purple-600 hover:bg-purple-700 text-white">
+              <Button 
+                className="bg-purple-600 hover:bg-purple-700 text-white"
+                onClick={() => setIsCreateModalOpen(true)}
+              >
                 <Plus className="w-4 h-4 mr-2" />
                 Создать первый тикет
               </Button>
@@ -91,6 +116,12 @@ export function SupportTicketList({ tickets, onTicketSelect }: SupportTicketList
           )}
         </CardContent>
       </Card>
+
+      <CreateTicketModal
+        open={isCreateModalOpen}
+        onOpenChange={setIsCreateModalOpen}
+        onCreateTicket={handleCreateTicket}
+      />
     </div>
   );
 }

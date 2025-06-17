@@ -100,6 +100,32 @@ export function SupportContent() {
     setSelectedTicket(null);
   };
 
+  const handleCreateTicket = (ticketData: {
+    category: string;
+    subject: string;
+    message: string;
+    attachments?: string[];
+  }) => {
+    const newTicket: SupportTicket = {
+      id: (Math.floor(Math.random() * 1000) + 800).toString(),
+      subject: ticketData.subject,
+      date: new Date().toLocaleDateString('ru-RU'),
+      status: "open",
+      messages: [
+        {
+          id: "1",
+          author: "user",
+          content: ticketData.message || "Обращение создано",
+          timestamp: new Date().toLocaleString('ru-RU'),
+          attachments: ticketData.attachments
+        }
+      ]
+    };
+
+    setTickets(prevTickets => [newTicket, ...prevTickets]);
+    console.log("Создан новый тикет:", newTicket);
+  };
+
   const handleNewMessage = (ticketId: string, message: string) => {
     setTickets(prevTickets => 
       prevTickets.map(ticket => 
@@ -171,6 +197,7 @@ export function SupportContent() {
     <SupportTicketList 
       tickets={tickets}
       onTicketSelect={handleTicketSelect}
+      onCreateTicket={handleCreateTicket}
     />
   );
 }
