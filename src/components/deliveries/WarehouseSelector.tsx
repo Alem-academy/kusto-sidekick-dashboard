@@ -1,54 +1,40 @@
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Control } from "react-hook-form";
 
-interface WarehouseSelectorProps {
-  control: Control<any>;
-}
-
-const warehouses = [
-  {
-    id: "warehouse-1",
-    name: "Основной склад",
-    address: "г. Алматы, ул. Складская, д. 15"
-  },
-  {
-    id: "warehouse-2", 
-    name: "Центральный склад",
-    address: "г. Алматы, ул. Промышленная, д. 42"
-  },
-  {
-    id: "warehouse-3",
-    name: "Восточный склад",
-    address: "г. Шымкент, ул. Логистическая, д. 8"
-  },
-  {
-    id: "warehouse-4",
-    name: "Северный распределительный центр",
-    address: "г. Астана, пр. Туран, д. 125"
-  }
+// Мокданные складов
+const mockWarehouses = [
+  { id: "wh1", name: "Главный склад", address: "г. Алматы, ул. Абая 100" },
+  { id: "wh2", name: "Склад №2", address: "г. Астана, пр. Назарбаева 50" },
+  { id: "wh3", name: "Региональный склад", address: "г. Шымкент, ул. Байтурсынова 75" }
 ];
 
-export function WarehouseSelector({ control }: WarehouseSelectorProps) {
+interface WarehouseSelectorProps {
+  control: Control<any>;
+  label?: string;
+}
+
+export function WarehouseSelector({ control, label = "Адрес склада" }: WarehouseSelectorProps) {
   return (
     <FormField
       control={control}
       name="warehouseId"
-      rules={{ required: "Выберите адрес склада" }}
+      rules={{ required: "Выберите склад" }}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Адрес склада</FormLabel>
+          <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select onValueChange={field.onChange} value={field.value}>
               <SelectTrigger>
-                <SelectValue placeholder="Выберите склад для поставки" />
+                <SelectValue placeholder="Выберите склад" />
               </SelectTrigger>
-              <SelectContent className="bg-white border shadow-lg z-50">
-                {warehouses.map((warehouse) => (
+              <SelectContent>
+                {mockWarehouses.map((warehouse) => (
                   <SelectItem key={warehouse.id} value={warehouse.id}>
-                    <div className="flex flex-col">
-                      <span className="font-medium">{warehouse.name}</span>
-                      <span className="text-sm text-gray-500">{warehouse.address}</span>
+                    <div>
+                      <div className="font-medium">{warehouse.name}</div>
+                      <div className="text-sm text-gray-500">{warehouse.address}</div>
                     </div>
                   </SelectItem>
                 ))}

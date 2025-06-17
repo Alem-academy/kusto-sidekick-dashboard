@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { WarehouseSelector } from "../deliveries/WarehouseSelector";
-import { ReturnRequest } from "./types";
+import { ReturnItemsSelector } from "./ReturnItemsSelector";
+import { ReturnRequest, ReturnItem } from "./types";
 
 interface CreateReturnFormProps {
   onSuccess: () => void;
@@ -23,6 +24,7 @@ interface ReturnFormData {
 
 export function CreateReturnForm({ onSuccess }: CreateReturnFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedItems, setSelectedItems] = useState<ReturnItem[]>([]);
 
   const form = useForm<ReturnFormData>({
     defaultValues: {
@@ -36,11 +38,20 @@ export function CreateReturnForm({ onSuccess }: CreateReturnFormProps) {
   });
 
   const onSubmit = async (data: ReturnFormData) => {
+    if (selectedItems.length === 0) {
+      console.warn("No items selected for return");
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
-      // Здесь будет логика создания заявки на возврат
-      console.log("Creating return request:", data);
+      const returnRequest = {
+        ...data,
+        items: selectedItems
+      };
+      
+      console.log("Creating return request:", returnRequest);
       
       // Имитация API запроса
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -54,15 +65,23 @@ export function CreateReturnForm({ onSuccess }: CreateReturnFormProps) {
     }
   };
 
+  const selectedWarehouseId = form.watch("warehouseId");
+
   return (
-    <Card className="max-w-2xl mx-auto">
+    <Card className="max-w-4xl mx-auto">
       <CardHeader>
         <CardTitle>Новая заявка на возврат товара</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <WarehouseSelector control={form.control} />
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium text-gray-900">Информация о заборе</h3>
+              <WarehouseSelector 
+                control={form.control} 
+                label="Выберите склад для забора"
+              />
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
@@ -145,15 +164,20 @@ export function CreateReturnForm({ onSuccess }: CreateReturnFormProps) {
               />
             </div>
 
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium text-gray-900">Товары для возврата</h3>
+              <ReturnItemsSelector
+                warehouseId={selectedWarehouseId}
+                selectedItems={selectedItems}
+                onItemsChange={setSelectedItems}
+              />
+            </div>
+
             <div className="pt-4">
-              <p className="text-sm text-gray-600 mb-4">
-                Примечание: Выбор товаров и партий для возврата будет добавлен на следующем этапе разработки.
-              </p>
-              
               <Button 
                 type="submit" 
                 className="w-full" 
-                disabled={isSubmitting}
+                disabled={isSubmitting || selectedItems.length === 0}
               >
                 {isSubmitting ? "Создание заявки..." : "Создать заявку на возврат"}
               </Button>
