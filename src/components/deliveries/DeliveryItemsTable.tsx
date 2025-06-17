@@ -21,6 +21,40 @@ export function DeliveryItemsTable({
   onUpdateItem, 
   onRemoveItem 
 }: DeliveryItemsTableProps) {
+  
+  const handleUnitPriceChange = (itemId: string, unitPrice: number) => {
+    const item = items.find(item => item.id === itemId);
+    if (item && item.plannedQuantity > 0) {
+      const totalPrice = unitPrice * item.plannedQuantity;
+      onUpdateItem(itemId, "declaredUnitPrice", unitPrice);
+      onUpdateItem(itemId, "declaredTotalPrice", totalPrice);
+    } else {
+      onUpdateItem(itemId, "declaredUnitPrice", unitPrice);
+    }
+  };
+
+  const handleTotalPriceChange = (itemId: string, totalPrice: number) => {
+    const item = items.find(item => item.id === itemId);
+    if (item && item.plannedQuantity > 0) {
+      const unitPrice = totalPrice / item.plannedQuantity;
+      onUpdateItem(itemId, "declaredTotalPrice", totalPrice);
+      onUpdateItem(itemId, "declaredUnitPrice", unitPrice);
+    } else {
+      onUpdateItem(itemId, "declaredTotalPrice", totalPrice);
+    }
+  };
+
+  const handleQuantityChange = (itemId: string, quantity: number) => {
+    const item = items.find(item => item.id === itemId);
+    onUpdateItem(itemId, "plannedQuantity", quantity);
+    
+    // Пересчитываем общую стоимость при изменении количества, если есть цена за единицу
+    if (item && item.declaredUnitPrice && quantity > 0) {
+      const totalPrice = item.declaredUnitPrice * quantity;
+      onUpdateItem(itemId, "declaredTotalPrice", totalPrice);
+    }
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -58,6 +92,7 @@ export function DeliveryItemsTable({
                     <TableHead>Количество</TableHead>
                     <TableHead>Единица</TableHead>
                     <TableHead>Стоимость за ед.</TableHead>
+                    <TableHead>Общая стоимость</TableHead>
                     <TableHead>Действия</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -83,7 +118,7 @@ export function DeliveryItemsTable({
                           type="number"
                           min="1"
                           value={item.plannedQuantity || ""}
-                          onChange={(e) => onUpdateItem(item.id, "plannedQuantity", parseInt(e.target.value) || 0)}
+                          onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value) || 0)}
                         />
                       </TableCell>
                       <TableCell>
@@ -109,7 +144,17 @@ export function DeliveryItemsTable({
                           min="0"
                           step="0.01"
                           value={item.declaredUnitPrice || ""}
-                          onChange={(e) => onUpdateItem(item.id, "declaredUnitPrice", parseFloat(e.target.value) || undefined)}
+                          onChange={(e) => handleUnitPriceChange(item.id, parseFloat(e.target.value) || 0)}
+                          placeholder="0.00"
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Input
+                          type="number"
+                          min="0"
+                          step="0.01"
+                          value={item.declaredTotalPrice || ""}
+                          onChange={(e) => handleTotalPriceChange(item.id, parseFloat(e.target.value) || 0)}
                           placeholder="0.00"
                         />
                       </TableCell>
@@ -132,8 +177,9 @@ export function DeliveryItemsTable({
               <h4 className="text-sm font-medium text-gray-800 mb-2">Информация об объявленной стоимости</h4>
               <ul className="text-xs text-gray-600 space-y-1">
                 <li>• Объявленная стоимость используется для расчета страхового возмещения</li>
-                <li>• Можно указать стоимость за единицу товара</li>
-                <li>• Если поле не заполнено, применяются стандартные условия договора</li>
+                <li>• Можно указать стоимость за единицу или общую стоимость партии</li>
+                <li>• При изменении одного поля другое пересчитывается автоматически</li>
+                <li>• Если поля не заполнены, применяются стандартные условия договора</li>
               </ul>
             </div>
           </CardContent>
