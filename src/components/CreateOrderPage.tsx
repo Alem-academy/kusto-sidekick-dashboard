@@ -56,6 +56,7 @@ export function CreateOrderPage() {
       quantity: 2
     }
   ]);
+  const [catalogQuantities, setCatalogQuantities] = useState<Record<string, number>>({});
 
   const filteredProducts = availableProducts.filter(product =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -65,21 +66,40 @@ export function CreateOrderPage() {
     point.clientId === selectedClient
   );
 
+  const getCatalogQuantity = (productId: string) => {
+    return catalogQuantities[productId] || 1;
+  };
+
+  const updateCatalogQuantity = (productId: string, quantity: number) => {
+    if (quantity < 1) return;
+    setCatalogQuantities(prev => ({
+      ...prev,
+      [productId]: quantity
+    }));
+  };
+
   const addProductToOrder = (product: Product) => {
+    const quantityToAdd = getCatalogQuantity(product.id);
     const existingItem = orderItems.find(item => item.product.id === product.id);
     
     if (existingItem) {
       setOrderItems(orderItems.map(item =>
         item.product.id === product.id
-          ? { ...item, quantity: item.quantity + 1 }
+          ? { ...item, quantity: item.quantity + quantityToAdd }
           : item
       ));
     } else {
-      setOrderItems([...orderItems, { product, quantity: 1 }]);
+      setOrderItems([...orderItems, { product, quantity: quantityToAdd }]);
     }
+
+    // Сбросить количество в каталоге после добавления
+    setCatalogQuantities(prev => ({
+      ...prev,
+      [product.id]: 1
+    }));
   };
 
-  const updateQuantity = (productId: string, newQuantity: number) => {
+  const updateOrderQuantity = (productId: string, newQuantity: number) => {
     if (newQuantity <= 0) {
       removeFromOrder(productId);
       return;
@@ -221,23 +241,29 @@ export function CreateOrderPage() {
                   <div className="space-y-3">
                     {orderItems.map((item) => (
                       <div key={item.product.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div className="flex-1">
-                          <p className="font-medium text-sm">{item.product.name}</p>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-sm truncate">{item.product.name}</p>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 ml-2">
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                            onClick={() => updateOrderQuantity(item.product.id, item.quantity - 1)}
                             className="h-7 w-7 p-0"
                           >
                             <Minus className="h-3 w-3" />
                           </Button>
-                          <span className="w-8 text-center text-sm">{item.quantity}</span>
+                          <Input
+                            type="number"
+                            value={item.quantity}
+                            onChange={(e) => updateOrderQuantity(item.product.id, parseInt(e.target.value) || 0)}
+                            className="w-16 h-7 text-center text-sm"
+                            min="1"
+                          />
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                            onClick={() => updateOrderQuantity(item.product.id, item.quantity + 1)}
                             className="h-7 w-7 p-0"
                           >
                             <Plus className="h-3 w-3" />
@@ -246,7 +272,7 @@ export function CreateOrderPage() {
                             size="sm"
                             variant="outline"
                             onClick={() => removeFromOrder(item.product.id)}
-                            className="h-7 w-7 p-0 text-red-600 hover:text-red-700"
+                            className="h-7 w-7 p-0 text-red-600 hover:text-red-700 ml-1"
                           >
                             <Trash2 className="h-3 w-3" />
                           </Button>
@@ -286,16 +312,46 @@ export function CreateOrderPage() {
                 <div className="space-y-3 max-h-[600px] overflow-y-auto">
                   {filteredProducts.map((product) => (
                     <div key={product.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors">
-                      <div className="flex-1">
-                        <h3 className="font-medium text-gray-900">{product.name}</h3>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium text-gray-900 truncate">{product.name}</h3>
                         <p className="text-sm text-gray-600">Доступно на складе: {product.stock} шт</p>
                       </div>
-                      <Button
-                        onClick={() => addProductToOrder(product)}
-                        className="bg-green-600 hover:bg-green-700"
-                      >
-                        Добавить в заказ
-                      </Button>
+                      <div className="flex items-center gap-3 ml-4">
+                        <div className="flex items-center gap-1">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => updateCatalogQuantity(product.id, getCatalogQuantity(product.id) - 1)}
+                            className="h-8 w-8 p-0"
+                            disabled={getCatalogQuantity(product.id) <= 1}
+                          >
+                            <Minus className="h-3 w-3" />
+                          </Button>
+                          <Input
+                            type="number"
+                            value={getCatalogQuantity(product.id)}
+                            onChange={(e) => updateCatalogQuantity(product.id, parseInt(e.target.value) || 1)}
+                            className="w-16 h-8 text-center text-sm"
+                            min="1"
+                            max={product.stock}
+                          />
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => updateCatalogQuantity(product.id, getCatalogQuantity(product.id) + 1)}
+                            className="h-8 w-8 p-0"
+                            disabled={getCatalogQuantity(product.id) >= product.stock}
+                          >
+                            <Plus className="h-3 w-3" />
+                          </Button>
+                        </div>
+                        <Button
+                          onClick={() => addProductToOrder(product)}
+                          className="bg-green-600 hover:bg-green-700"
+                        >
+                          Добавить в заказ
+                        </Button>
+                      </div>
                     </div>
                   ))}
                   
