@@ -1,10 +1,11 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Search, MapPin, List, Map, Edit, ToggleLeft, ToggleRight, Users, Building } from "lucide-react";
+import { Search, MapPin, List, Map, Edit, ToggleLeft, ToggleRight, Users, Building, Phone, Mail, User } from "lucide-react";
 import { AddClientModal } from "./clients/AddClientModal";
 import { AddDeliveryPointModal } from "./clients/AddDeliveryPointModal";
 
@@ -275,28 +276,66 @@ export function ClientManagement() {
       <div className="w-[70%] space-y-4">
         {selectedClient ? (
           <>
-            {/* Заголовок и действия */}
+            {/* Оптимизированная карточка клиента */}
             <Card>
               <CardContent className="p-6">
-                <div className="flex items-start justify-between">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <Building className="w-5 h-5 text-blue-600" />
-                      <h2 className="text-2xl font-bold text-gray-900">{selectedClient.name}</h2>
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <Building className="w-6 h-6 text-blue-600" />
                     </div>
-                    <div className="space-y-1 text-sm text-gray-600">
-                      <p><strong>БИН:</strong> {selectedClient.bin}</p>
-                      <p><strong>Контактное лицо:</strong> {selectedClient.contact}</p>
-                      <p><strong>Телефон:</strong> {selectedClient.phone}</p>
-                      <p><strong>Email:</strong> {selectedClient.email}</p>
+                    <div>
+                      <h2 className="text-2xl font-bold text-gray-900 mb-2">{selectedClient.name}</h2>
+                      <div className="flex items-center gap-4 text-sm text-gray-600">
+                        <Badge variant="outline" className="text-xs font-normal">
+                          БИН: {selectedClient.bin}
+                        </Badge>
+                        <Badge variant="outline" className="text-xs font-normal">
+                          <MapPin className="w-3 h-3 mr-1" />
+                          {selectedClient.deliveryPoints.length} точек доставки
+                        </Badge>
+                      </div>
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Button variant="outline">
+                    <Button variant="outline" size="sm">
                       <Edit className="w-4 h-4 mr-2" />
-                      Редактировать клиента
+                      Редактировать
                     </Button>
                     <AddDeliveryPointModal onAddDeliveryPoint={handleAddDeliveryPoint} />
+                  </div>
+                </div>
+
+                {/* Контактная информация в удобной сетке */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                      <User className="w-4 h-4 text-blue-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 uppercase tracking-wide">Контактное лицо</p>
+                      <p className="font-medium text-gray-900">{selectedClient.contact}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                    <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                      <Phone className="w-4 h-4 text-green-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 uppercase tracking-wide">Телефон</p>
+                      <p className="font-medium text-gray-900">{selectedClient.phone}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                    <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                      <Mail className="w-4 h-4 text-purple-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 uppercase tracking-wide">Email</p>
+                      <p className="font-medium text-gray-900">{selectedClient.email}</p>
+                    </div>
                   </div>
                 </div>
               </CardContent>
