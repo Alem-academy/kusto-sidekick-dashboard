@@ -1,135 +1,201 @@
 
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { FileText, Search, Download } from "lucide-react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useState, useMemo } from "react";
+import { KPICards } from "./documents/KPICards";
+import { DocumentFilters } from "./documents/DocumentFilters";
+import { GroupedDocumentsTable } from "./documents/GroupedDocumentsTable";
+import { Document, DocumentGroup, DocumentFilters as FilterType, KPIData } from "./documents/types";
 
 export function DocumentsContent() {
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const documents = [
+  // Пример данных - в реальном приложении будут загружаться с сервера
+  const mockDocuments: Document[] = [
     {
       id: "DOC-001",
-      type: "Счет-фактура",
+      type: "invoice",
       number: "СФ-156",
       date: "15.06.2025",
-      amount: "₸ 145,000"
+      amount: 145000,
+      paymentStatus: "pending",
+      dueDate: "25.06.2025",
+      clientName: "ТОО Астана Трейд",
+      description: "Поставка оборудования"
     },
     {
-      id: "DOC-002", 
-      type: "Накладная",
+      id: "DOC-001-ACT",
+      type: "act",
+      number: "АКТ-156",
+      date: "15.06.2025",
+      amount: 145000,
+      paymentStatus: "pending",
+      parentId: "DOC-001",
+      clientName: "ТОО Астана Трейд",
+      description: "Акт выполненных работ"
+    },
+    {
+      id: "DOC-002",
+      type: "invoice",
+      number: "СФ-157",
+      date: "14.06.2025",
+      amount: 89500,
+      paymentStatus: "overdue",
+      dueDate: "24.06.2025",
+      clientName: "АО Казахстан Логистик",
+      description: "Транспортные услуги"
+    },
+    {
+      id: "DOC-002-DEL",
+      type: "delivery",
       number: "НК-089",
       date: "14.06.2025",
-      amount: "₸ 89,500"
+      amount: 89500,
+      paymentStatus: "overdue",
+      parentId: "DOC-002",
+      clientName: "АО Казахстан Логистик",
+      description: "Товарная накладная"
     },
     {
       id: "DOC-003",
-      type: "Договор поставки",
-      number: "ДП-2025-78",
+      type: "invoice",
+      number: "СФ-158",
       date: "13.06.2025",
-      amount: "₸ 2,450,000"
+      amount: 450000,
+      paymentStatus: "paid",
+      dueDate: "23.06.2025",
+      clientName: "ТОО Алматы Снаб",
+      description: "Поставка материалов"
     },
     {
       id: "DOC-004",
-      type: "Акт сверки",
-      number: "АС-май-2025",
-      date: "12.06.2025",
-      amount: "₸ 567,800"
-    },
-    {
-      id: "DOC-005",
-      type: "Счет-фактура", 
-      number: "СФ-157",
-      date: "11.06.2025",
-      amount: "₸ 78,900"
-    },
-    {
-      id: "DOC-006",
-      type: "Накладная",
-      number: "НК-090",
+      type: "contract",
+      number: "ДП-2025-78",
       date: "10.06.2025",
-      amount: "₸ 156,300"
+      amount: 2450000,
+      paymentStatus: "pending",
+      clientName: "АО НК КазМунайГаз",
+      description: "Договор поставки нефтепродуктов"
     }
   ];
 
-  const filteredDocuments = documents.filter(doc => 
-    doc.number.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    doc.type.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const [filters, setFilters] = useState<FilterType>({
+    dateFrom: "",
+    dateTo: "",
+    documentType: "all",
+    paymentStatus: "all"
+  });
+
+  // Группировка документов
+  const documentGroups = useMemo(() => {
+    let filteredDocs = mockDocuments;
+
+    // Применяем фильтры
+    if (filters.dateFrom) {
+      filteredDocs = filteredDocs.filter(doc => doc.date >= filters.dateFrom);
+    }
+    if (filters.dateTo) {
+      filteredDocs = filteredDocs.filter(doc => doc.date <= filters.dateTo);
+    }
+    if (filters.documentType !== "all") {
+      filteredDocs = filteredDocs.filter(doc => doc.type === filters.documentType);
+    }
+    if (filters.paymentStatus !== "all") {
+      filteredDocs = filteredDocs.filter(doc => doc.paymentStatus === filters.paymentStatus);
+    }
+
+    // Группируем документы
+    const mainDocs = filteredDocs.filter(doc => !doc.parentId);
+    const relatedDocs = filteredDocs.filter(doc => doc.parentId);
+
+    const groups: DocumentGroup[] = mainDocs.map(mainDoc => {
+      const related = relatedDocs.filter(doc => doc.parentId === mainDoc.id);
+      const totalAmount = mainDoc.amount + related.reduce((sum, doc) => sum + doc.amount, 0);
+      
+      // Определяем общий статус группы
+      let overallStatus: DocumentGroup["overallStatus"] = mainDoc.paymentStatus;
+      if (related.length > 0) {
+        const allStatuses = [mainDoc, ...related].map(doc => doc.paymentStatus);
+        if (allStatuses.every(status => status === "paid")) {
+          overallStatus = "paid";
+        } else if (allStatuses.some(status => status === "overdue")) {
+          overallStatus = "overdue";
+        } else if (allStatuses.some(status => status === "paid")) {
+          overallStatus = "partial";
+        } else {
+          overallStatus = "pending";
+        }
+      }
+
+      return {
+        mainDocument: mainDoc,
+        relatedDocuments: related,
+        totalAmount,
+        overallStatus
+      };
+    });
+
+    return groups;
+  }, [filters]);
+
+  // Вычисляем KPI
+  const kpiData = useMemo((): KPIData => {
+    const allDocs = mockDocuments;
+    const toPay = allDocs
+      .filter(doc => doc.paymentStatus === "pending")
+      .reduce((sum, doc) => sum + doc.amount, 0);
+    
+    const overdue = allDocs
+      .filter(doc => doc.paymentStatus === "overdue")
+      .reduce((sum, doc) => sum + doc.amount, 0);
+    
+    const totalPaid = allDocs
+      .filter(doc => doc.paymentStatus === "paid")
+      .reduce((sum, doc) => sum + doc.amount, 0);
+
+    return {
+      toPay,
+      overdue,
+      totalPaid,
+      totalDocuments: documentGroups.length
+    };
+  }, [documentGroups]);
+
+  const handleFilterByToPay = () => {
+    setFilters(prev => ({ ...prev, paymentStatus: "pending" }));
+  };
+
+  const handleFilterByOverdue = () => {
+    setFilters(prev => ({ ...prev, paymentStatus: "overdue" }));
+  };
+
+  const resetFilters = () => {
+    setFilters({
+      dateFrom: "",
+      dateTo: "",
+      documentType: "all",
+      paymentStatus: "all"
+    });
+  };
 
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Реестр документов</h1>
-          <p className="text-gray-600 mt-1">Поиск и управление документами</p>
+          <h1 className="text-3xl font-bold text-gray-900">Управление документами</h1>
+          <p className="text-gray-600 mt-1">Финансовая аналитика и отслеживание статусов оплаты</p>
         </div>
       </div>
 
-      {/* Search */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input
-              placeholder="Поиск по номеру или названию документа..."
-              className="pl-10"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-        </CardContent>
-      </Card>
+      <KPICards 
+        data={kpiData}
+        onFilterByToPay={handleFilterByToPay}
+        onFilterByOverdue={handleFilterByOverdue}
+      />
 
-      {/* Documents Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <FileText className="w-5 h-5 text-blue-600" />
-            Документы ({filteredDocuments.length})
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Тип документа</TableHead>
-                  <TableHead>Номер</TableHead>
-                  <TableHead>Дата создания</TableHead>
-                  <TableHead>Сумма</TableHead>
-                  <TableHead className="text-center">Скачать</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredDocuments.map((doc) => (
-                  <TableRow key={doc.id}>
-                    <TableCell className="font-medium">{doc.type}</TableCell>
-                    <TableCell>{doc.number}</TableCell>
-                    <TableCell>{doc.date}</TableCell>
-                    <TableCell className="font-semibold text-green-600">{doc.amount}</TableCell>
-                    <TableCell className="text-center">
-                      <Button size="sm" variant="outline" className="hover:bg-blue-50">
-                        <Download className="w-4 h-4" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-          
-          {filteredDocuments.length === 0 && (
-            <div className="text-center py-8 text-gray-500">
-              <FileText className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-              <p>Документы не найдены</p>
-              <p className="text-sm">Попробуйте изменить критерии поиска</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      <DocumentFilters 
+        filters={filters}
+        onFiltersChange={setFilters}
+        onResetFilters={resetFilters}
+      />
+
+      <GroupedDocumentsTable documentGroups={documentGroups} />
     </div>
   );
 }
