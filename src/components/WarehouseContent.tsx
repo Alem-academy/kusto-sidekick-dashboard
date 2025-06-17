@@ -1,4 +1,3 @@
-
 import { useState, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -371,10 +370,14 @@ export function WarehouseContent() {
                         <Package className="w-4 h-4 text-blue-600" />
                         {item.name}
                         {isLowStock(item) && (
-                          <AlertTriangle className="w-4 h-4 text-red-500" title="Низкий остаток" />
+                          <span title="Низкий остаток">
+                            <AlertTriangle className="w-4 h-4 text-red-500" />
+                          </span>
                         )}
                         {hasExpiryRisk(item) && (
-                          <Calendar className="w-4 h-4 text-orange-500" title="Риск по сроку годности" />
+                          <span title="Риск по сроку годности">
+                            <Calendar className="w-4 h-4 text-orange-500" />
+                          </span>
                         )}
                       </div>
                     </TableCell>
