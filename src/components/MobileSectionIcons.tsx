@@ -9,7 +9,9 @@ import {
   TrendingUp,
   AlertTriangle,
   Clock,
-  CheckCircle
+  CheckCircle,
+  HelpCircle,
+  Lightbulb
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -22,6 +24,11 @@ const quickActions = [
   { id: "orders", title: "Заказы", icon: ShoppingCart, color: "bg-orange-50 text-orange-600", count: "89" },
   { id: "reports", title: "Отчеты", icon: BarChart3, color: "bg-green-50 text-green-600", count: "12" },
   { id: "documents", title: "Документы", icon: FileText, color: "bg-purple-50 text-purple-600", count: "456" },
+];
+
+const secondaryActions = [
+  { id: "support", title: "Поддержка", icon: HelpCircle, color: "bg-purple-50 text-purple-600" },
+  { id: "concept", title: "Концепция", icon: Lightbulb, color: "bg-yellow-50 text-yellow-600" },
 ];
 
 const statusCards = [
@@ -37,22 +44,45 @@ export function MobileSectionIcons({ onSectionChange }: MobileSectionIconsProps)
       {/* Quick Actions */}
       <div>
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Быстрые действия</h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3">
           {quickActions.map((action) => (
             <Card 
               key={action.id}
               className="cursor-pointer hover:shadow-md transition-shadow"
               onClick={() => onSectionChange(action.id)}
             >
-              <CardContent className="p-4">
+              <CardContent className="p-3">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-900">{action.title}</p>
-                    <p className="text-lg font-bold text-gray-600">{action.count}</p>
+                    <p className="text-xs font-medium text-gray-900">{action.title}</p>
+                    <p className="text-sm font-bold text-gray-600">{action.count}</p>
                   </div>
-                  <div className={`p-3 rounded-full ${action.color}`}>
-                    <action.icon className="w-6 h-6" />
+                  <div className={`p-2 rounded-full ${action.color}`}>
+                    <action.icon className="w-4 h-4" />
                   </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      {/* Secondary Actions */}
+      <div>
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">Дополнительно</h2>
+        <div className="grid grid-cols-2 gap-3">
+          {secondaryActions.map((action) => (
+            <Card 
+              key={action.id}
+              className="cursor-pointer hover:shadow-md transition-shadow"
+              onClick={() => onSectionChange(action.id)}
+            >
+              <CardContent className="p-3">
+                <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded-full ${action.color}`}>
+                    <action.icon className="w-4 h-4" />
+                  </div>
+                  <p className="text-sm font-medium text-gray-900">{action.title}</p>
                 </div>
               </CardContent>
             </Card>
@@ -67,8 +97,8 @@ export function MobileSectionIcons({ onSectionChange }: MobileSectionIconsProps)
           {statusCards.map((status, index) => (
             <Card key={index}>
               <CardContent className="p-3">
-                <div className="flex items-center gap-3">
-                  <status.icon className={`w-5 h-5 ${status.color}`} />
+                <div className="flex items-center gap-2">
+                  <status.icon className={`w-4 h-4 ${status.color}`} />
                   <div className="min-w-0">
                     <p className="text-xs text-gray-600 truncate">{status.title}</p>
                     <p className={`text-sm font-bold ${status.color}`}>{status.value}</p>

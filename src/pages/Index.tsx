@@ -49,7 +49,7 @@ const Index = () => {
         )}
         
         {/* Main Content */}
-        <main className="flex-1 overflow-auto">
+        <main className={`flex-1 overflow-auto ${isMobile ? 'pb-16' : ''}`}>
           {renderContent()}
         </main>
 
