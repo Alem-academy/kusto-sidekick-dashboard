@@ -48,3 +48,12 @@ export const deliveryStatusColors: Record<DeliveryStatus, string> = {
   completed_discrepancy: "bg-red-100 text-red-800",
   completed: "bg-green-100 text-green-800"
 };
+
+export const unitOptions = [
+  { value: "шт", label: "шт. (штуки)" },
+  { value: "кор", label: "кор. (коробка / ящик)" },
+  { value: "упак", label: "упак. (упаковка)" },
+  { value: "плт", label: "паллета / плт. (паллета)" },
+  { value: "кг", label: "кг (килограмм)" },
+  { value: "л", label: "л (литр)" }
+];

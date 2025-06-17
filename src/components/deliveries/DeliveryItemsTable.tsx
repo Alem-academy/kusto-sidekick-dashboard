@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Trash2, Info } from "lucide-react";
-import { DeliveryItem } from "./types";
+import { DeliveryItem, unitOptions } from "./types";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface DeliveryItemsTableProps {
@@ -57,7 +58,6 @@ export function DeliveryItemsTable({
                     <TableHead>Количество</TableHead>
                     <TableHead>Единица</TableHead>
                     <TableHead>Стоимость за ед.</TableHead>
-                    <TableHead>Общая стоимость</TableHead>
                     <TableHead>Действия</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -87,11 +87,21 @@ export function DeliveryItemsTable({
                         />
                       </TableCell>
                       <TableCell>
-                        <Input
+                        <Select
                           value={item.unit}
-                          onChange={(e) => onUpdateItem(item.id, "unit", e.target.value)}
-                          placeholder="шт"
-                        />
+                          onValueChange={(value) => onUpdateItem(item.id, "unit", value)}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Выберите единицу" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {unitOptions.map((option) => (
+                              <SelectItem key={option.value} value={option.value}>
+                                {option.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </TableCell>
                       <TableCell>
                         <Input
@@ -100,16 +110,6 @@ export function DeliveryItemsTable({
                           step="0.01"
                           value={item.declaredUnitPrice || ""}
                           onChange={(e) => onUpdateItem(item.id, "declaredUnitPrice", parseFloat(e.target.value) || undefined)}
-                          placeholder="0.00"
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <Input
-                          type="number"
-                          min="0"
-                          step="0.01"
-                          value={item.declaredTotalPrice || ""}
-                          onChange={(e) => onUpdateItem(item.id, "declaredTotalPrice", parseFloat(e.target.value) || undefined)}
                           placeholder="0.00"
                         />
                       </TableCell>
@@ -132,8 +132,8 @@ export function DeliveryItemsTable({
               <h4 className="text-sm font-medium text-gray-800 mb-2">Информация об объявленной стоимости</h4>
               <ul className="text-xs text-gray-600 space-y-1">
                 <li>• Объявленная стоимость используется для расчета страхового возмещения</li>
-                <li>• Можно указать стоимость за единицу или общую стоимость партии</li>
-                <li>• Если поля не заполнены, применяются стандартные условия договора</li>
+                <li>• Можно указать стоимость за единицу товара</li>
+                <li>• Если поле не заполнено, применяются стандартные условия договора</li>
               </ul>
             </div>
           </CardContent>

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -78,9 +77,8 @@ export function CreateDeliveryForm({ onSuccess }: CreateDeliveryFormProps) {
 
   const calculateTotalDeclaredValue = () => {
     return items.reduce((total, item) => {
-      const itemValue = item.declaredTotalPrice || 
-        (item.declaredUnitPrice && item.plannedQuantity ? 
-          item.declaredUnitPrice * item.plannedQuantity : 0);
+      const itemValue = item.declaredUnitPrice && item.plannedQuantity ? 
+        item.declaredUnitPrice * item.plannedQuantity : 0;
       return total + itemValue;
     }, 0);
   };
