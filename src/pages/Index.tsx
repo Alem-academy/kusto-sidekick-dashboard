@@ -9,6 +9,7 @@ import { ReportGeneratorContent } from "@/components/ReportGeneratorContent";
 import { DocumentsContent } from "@/components/DocumentsContent";
 import { ProfileContent } from "@/components/ProfileContent";
 import { ConceptContent } from "@/components/ConceptContent";
+import { SupportContent } from "@/components/SupportContent";
 import { MobileBottomMenu } from "@/components/MobileBottomMenu";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -30,6 +31,8 @@ const Index = () => {
         return <DocumentsContent />;
       case "profile":
         return <ProfileContent />;
+      case "support":
+        return <SupportContent />;
       case "concept":
         return <ConceptContent />;
       default:

@@ -8,7 +8,8 @@ import {
   User, 
   Menu,
   Building2,
-  Lightbulb
+  Lightbulb,
+  HelpCircle
 } from "lucide-react";
 import {
   Sidebar,
@@ -34,7 +35,8 @@ const menuItems = [
   { id: "orders", title: "Заказы и доставка", icon: ShoppingCart },
   { id: "reports", title: "Отчеты", icon: BarChart3 },
   { id: "documents", title: "Документы", icon: FileText },
-  { id: "profile", title: "Профиль и поддержка", icon: User },
+  { id: "profile", title: "Профиль", icon: User },
+  { id: "support", title: "Поддержка", icon: HelpCircle },
   { id: "concept", title: "Предложенная концепция", icon: Lightbulb },
 ];
 
@@ -74,6 +76,8 @@ export function AppSidebar({ activeSection, onSectionChange }: AppSidebarProps) 
                       ${activeSection === item.id
                         ? item.id === "concept"
                           ? "bg-yellow-100 text-yellow-800 border-r-2 border-yellow-600"
+                          : item.id === "support"
+                          ? "bg-purple-100 text-purple-800 border-r-2 border-purple-600"
                           : "bg-blue-50 text-blue-700 border-r-2 border-blue-600"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                       }
@@ -83,6 +87,8 @@ export function AppSidebar({ activeSection, onSectionChange }: AppSidebarProps) 
                       activeSection === item.id 
                         ? item.id === "concept" 
                           ? "text-yellow-600" 
+                          : item.id === "support"
+                          ? "text-purple-600"
                           : "text-blue-600" 
                         : ""
                     }`} />
