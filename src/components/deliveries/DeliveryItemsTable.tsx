@@ -24,23 +24,23 @@ export function DeliveryItemsTable({
   
   const handleUnitPriceChange = (itemId: string, unitPrice: number) => {
     const item = items.find(item => item.id === itemId);
-    if (item && item.plannedQuantity > 0) {
+    onUpdateItem(itemId, "declaredUnitPrice", unitPrice);
+    
+    // Пересчитываем общую стоимость только если есть количество
+    if (item && item.plannedQuantity && item.plannedQuantity > 0) {
       const totalPrice = unitPrice * item.plannedQuantity;
-      onUpdateItem(itemId, "declaredUnitPrice", unitPrice);
       onUpdateItem(itemId, "declaredTotalPrice", totalPrice);
-    } else {
-      onUpdateItem(itemId, "declaredUnitPrice", unitPrice);
     }
   };
 
   const handleTotalPriceChange = (itemId: string, totalPrice: number) => {
     const item = items.find(item => item.id === itemId);
-    if (item && item.plannedQuantity > 0) {
+    onUpdateItem(itemId, "declaredTotalPrice", totalPrice);
+    
+    // Пересчитываем стоимость за единицу только если есть количество
+    if (item && item.plannedQuantity && item.plannedQuantity > 0) {
       const unitPrice = totalPrice / item.plannedQuantity;
-      onUpdateItem(itemId, "declaredTotalPrice", totalPrice);
       onUpdateItem(itemId, "declaredUnitPrice", unitPrice);
-    } else {
-      onUpdateItem(itemId, "declaredTotalPrice", totalPrice);
     }
   };
 
