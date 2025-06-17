@@ -90,48 +90,50 @@ export function DeliveryItemsTable({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>SKU</TableHead>
-                    <TableHead>Наименование</TableHead>
-                    <TableHead>Количество</TableHead>
-                    <TableHead>Единица</TableHead>
-                    <TableHead>Стоимость за ед.</TableHead>
-                    <TableHead>Общая стоимость</TableHead>
-                    <TableHead>Действия</TableHead>
+                    <TableHead className="w-[200px]">SKU</TableHead>
+                    <TableHead className="w-[300px]">Наименование</TableHead>
+                    <TableHead className="w-[120px]">Количество</TableHead>
+                    <TableHead className="w-[140px]">Единица</TableHead>
+                    <TableHead className="w-[150px]">Стоимость за ед.</TableHead>
+                    <TableHead className="w-[150px]">Общая стоимость</TableHead>
+                    <TableHead className="w-[80px]">Действия</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {items.map((item) => (
                     <TableRow key={item.id}>
-                      <TableCell>
+                      <TableCell className="w-[200px]">
                         <Input
                           value={item.sku}
                           onChange={(e) => onUpdateItem(item.id, "sku", e.target.value)}
                           placeholder="JUICE-001"
+                          className="min-w-0"
                         />
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="w-[300px]">
                         <Input
                           value={item.name}
                           onChange={(e) => onUpdateItem(item.id, "name", e.target.value)}
                           placeholder="Сок яблочный 1л"
+                          className="min-w-0"
                         />
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="w-[120px]">
                         <Input
                           type="number"
                           min="1"
                           value={item.plannedQuantity || ""}
                           onChange={(e) => onUpdateItem(item.id, "plannedQuantity", parseInt(e.target.value) || 0)}
                           onBlur={(e) => handleQuantityBlur(item.id, e.target.value)}
-                          className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+                          className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield] min-w-0"
                         />
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="w-[140px]">
                         <Select
                           value={item.unit}
                           onValueChange={(value) => onUpdateItem(item.id, "unit", value)}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className="min-w-0">
                             <SelectValue placeholder="Выберите единицу" />
                           </SelectTrigger>
                           <SelectContent>
@@ -143,7 +145,7 @@ export function DeliveryItemsTable({
                           </SelectContent>
                         </Select>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="w-[150px]">
                         <Input
                           type="number"
                           min="0"
@@ -152,10 +154,10 @@ export function DeliveryItemsTable({
                           onChange={(e) => onUpdateItem(item.id, "declaredUnitPrice", parseFloat(e.target.value) || 0)}
                           onBlur={(e) => handleUnitPriceBlur(item.id, e.target.value)}
                           placeholder="0.00"
-                          className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+                          className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield] min-w-0"
                         />
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="w-[150px]">
                         <Input
                           type="number"
                           min="0"
@@ -164,10 +166,10 @@ export function DeliveryItemsTable({
                           onChange={(e) => onUpdateItem(item.id, "declaredTotalPrice", parseFloat(e.target.value) || 0)}
                           onBlur={(e) => handleTotalPriceBlur(item.id, e.target.value)}
                           placeholder="0.00"
-                          className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+                          className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield] min-w-0"
                         />
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="w-[80px]">
                         <Button
                           type="button"
                           variant="ghost"
