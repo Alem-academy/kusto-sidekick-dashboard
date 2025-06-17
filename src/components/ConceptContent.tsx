@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function ConceptContent() {
@@ -11,6 +12,16 @@ export function ConceptContent() {
             Превращаем складскую логистику в прозрачную, управляемую и эффективную цифровую экосистему для ваших клиентов.
           </p>
         </header>
+
+        {/* Введение */}
+        <section className="my-16">
+          <div className="bg-white rounded-lg shadow-md p-8 max-w-5xl mx-auto">
+            <h2 className="text-2xl font-bold text-[#003f5c] mb-6">Введение: Новый стандарт сервиса</h2>
+            <p className="text-lg text-slate-700 leading-relaxed">
+              Мы предлагаем разработать и внедрить Личный Кабинет — современную цифровую платформу, которая станет единой точкой входа для всех клиентов MKS-Kusto. Это не просто сайт, а полноценный рабочий инструмент, который переведет взаимодействие с клиентами из телефонных звонков и электронной почты в эффективную и прозрачную онлайн-среду.
+            </p>
+          </div>
+        </section>
 
         <section className="my-16">
           <div className="text-center mb-12">
@@ -44,6 +55,16 @@ export function ConceptContent() {
           </div>
         </section>
 
+        {/* Ключевая идея */}
+        <section className="my-16">
+          <div className="bg-white rounded-lg shadow-md p-8 max-w-5xl mx-auto">
+            <h2 className="text-2xl font-bold text-[#003f5c] mb-6">Ключевая идея: От склада к сервисному партнеру</h2>
+            <p className="text-lg text-slate-700 leading-relaxed">
+              Основная цель платформы — трансформировать восприятие MKS-Kusto. Из компании, предоставляющей складские услуги, вы превращаетесь в незаменимого сервисного партнера, глубоко интегрированного в бизнес-процессы клиента. Личный Кабинет автоматизирует рутину и дает вашим клиентам инструменты для управления собственной логистикой, финансами и запасами.
+            </p>
+          </div>
+        </section>
+
         <section className="my-16">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-800">Возможности для ваших клиентов</h2>
@@ -51,6 +72,56 @@ export function ConceptContent() {
               Мы спроектировали модульную систему, где каждый раздел решает конкретные задачи бизнеса.
             </p>
           </div>
+
+          {/* Что получают ваши клиенты */}
+          <div className="bg-white rounded-lg shadow-md p-8 max-w-5xl mx-auto mb-12">
+            <h3 className="text-2xl font-bold text-[#003f5c] mb-6">Что получают ваши клиенты?</h3>
+            <p className="text-lg text-slate-700 leading-relaxed mb-8">
+              Мы спроектировали модульную систему, где каждый раздел решает конкретные задачи клиента и автоматизирует весь логистический цикл:
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="p-6 bg-slate-50 rounded-lg">
+                <h4 className="text-lg font-bold text-[#003f5c] mb-3">Централизованное управление поставками</h4>
+                <p className="text-slate-700">
+                  <strong>Заявки на поставку:</strong> Клиенты заранее создают электронные заявки, указывая склад назначения, состав партии, единицы измерения и оценочную стоимость. Это гарантирует быструю и предсказуемую приемку товара.
+                </p>
+              </div>
+              
+              <div className="p-6 bg-slate-50 rounded-lg">
+                <h4 className="text-lg font-bold text-[#003f5c] mb-3">Прозрачный контроль над запасами</h4>
+                <p className="text-slate-700">
+                  <strong>Дашборд «Склад и остатки»:</strong> Полная картина остатков 24/7 в разрезе всех складов MKS-Kusto. Система проактивно информирует о низких запасах и истекающих сроках годности.
+                </p>
+              </div>
+              
+              <div className="p-6 bg-slate-50 rounded-lg">
+                <h4 className="text-lg font-bold text-[#003f5c] mb-3">Гибкое управление отгрузками</h4>
+                <p className="text-slate-700">
+                  <strong>Заказы на доставку:</strong> Оптимизированный интерфейс для быстрой отгрузки товаров конечным клиентам.<br/>
+                  <strong>Заявки на возврат:</strong> Контролируемый процесс возврата товара со склада владельцу с выбором конкретных партий.
+                </p>
+              </div>
+              
+              <div className="p-6 bg-slate-50 rounded-lg">
+                <h4 className="text-lg font-bold text-[#003f5c] mb-3">Финансовая аналитика и документооборот</h4>
+                <p className="text-slate-700">
+                  <strong>Интерактивные отчеты:</strong> Визуальные дашборды для анализа продаж и структуры запасов.<br/>
+                  <strong>Финансовый архив:</strong> Умный архив документов со статусами оплаты и группировкой.<br/>
+                  <strong>Прозрачность тарифов:</strong> Возможность просматривать тарифы на услуги и использовать калькулятор для предварительного расчета стоимости.
+                </p>
+              </div>
+              
+              <div className="p-6 bg-slate-50 rounded-lg md:col-span-2">
+                <h4 className="text-lg font-bold text-[#003f5c] mb-3">Эффективные коммуникации</h4>
+                <p className="text-slate-700">
+                  <strong>Справочник клиентов:</strong> Интерактивный справочник с картой для управления точками доставки.<br/>
+                  <strong>Система поддержки:</strong> Структурированная система тикетов для быстрой и прозрачной связи со службой поддержки.
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             
             <div className="bg-white rounded-lg shadow-md p-6">
@@ -160,6 +231,45 @@ export function ConceptContent() {
               Внедрение Личного Кабинета — это прямая инвестиция в эффективность, лояльность и рост.
             </p>
           </div>
+
+          {/* Ценность для бизнеса MKS-Kusto */}
+          <div className="bg-white rounded-lg shadow-md p-8 max-w-5xl mx-auto mb-12">
+            <h3 className="text-2xl font-bold text-[#003f5c] mb-6">Ценность для бизнеса MKS-Kusto</h3>
+            <p className="text-lg text-slate-700 leading-relaxed mb-8">
+              Внедрение Личного Кабинета принесет прямую выгоду вашей компании:
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="p-6 bg-slate-50 rounded-lg">
+                <h4 className="text-lg font-bold text-[#003f5c] mb-3">Снижение операционной нагрузки</h4>
+                <p className="text-slate-700">
+                  Автоматизация рутинных запросов («сколько у меня товара?», «где мой заказ?», «пришлите счет-фактуру») высвободит время ваших менеджеров для решения более сложных задач.
+                </p>
+              </div>
+              
+              <div className="p-6 bg-slate-50 rounded-lg">
+                <h4 className="text-lg font-bold text-[#003f5c] mb-3">Повышение лояльности клиентов</h4>
+                <p className="text-slate-700">
+                  Предоставление такого мощного и удобного инструмента — это лучший способ удержать существующих клиентов и повысить их удовлетворенность.
+                </p>
+              </div>
+              
+              <div className="p-6 bg-slate-50 rounded-lg">
+                <h4 className="text-lg font-bold text-[#003f5c] mb-3">Решающее конкурентное преимущество</h4>
+                <p className="text-slate-700">
+                  Наличие современной цифровой платформы станет ключевым аргументом при привлечении новых крупных клиентов.
+                </p>
+              </div>
+              
+              <div className="p-6 bg-slate-50 rounded-lg">
+                <h4 className="text-lg font-bold text-[#003f5c] mb-3">Основа для будущего роста</h4>
+                <p className="text-slate-700">
+                  Эта платформа — фундамент, на который в будущем можно будет добавлять новые цифровые услуги и модели монетизации.
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-[#003f5c] text-white p-6 rounded-lg text-center transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg">
               <div className="text-5xl font-extrabold text-[#ffa600]">-40%</div>
@@ -201,6 +311,16 @@ export function ConceptContent() {
             </p>
           </header>
 
+          {/* Введение архитектуры */}
+          <section className="my-16">
+            <div className="bg-white rounded-lg shadow-md p-8 max-w-5xl mx-auto">
+              <h2 className="text-2xl font-bold text-[#003f5c] mb-6">Введение: Как всё связать?</h2>
+              <p className="text-lg text-slate-700 leading-relaxed">
+                Личный Кабинет будет невероятно полезен, но только при условии, что он будет надежно и в реальном времени обмениваться данными с вашими ключевыми системами. Мы предлагаем построить архитектуру, которая обеспечит безопасность, гибкость и стабильность этого обмена, а также сможет поддерживать работу со всеми вашими складами.
+              </p>
+            </div>
+          </section>
+
           <section className="my-20">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-slate-800">Наша философия: Центральный Хаб</h2>
@@ -209,6 +329,34 @@ export function ConceptContent() {
                 Личный Кабинет становится изолированным сервисным хабом, как терминал в аэропорту, 
                 который управляет всеми потоками данных.
               </p>
+            </div>
+
+            {/* Философия центрального хаба */}
+            <div className="bg-white rounded-lg shadow-md p-8 max-w-5xl mx-auto mb-12">
+              <h3 className="text-2xl font-bold text-[#003f5c] mb-6">Наша философия: Личный Кабинет как центральный хаб</h3>
+              <p className="text-lg text-slate-700 leading-relaxed mb-6">
+                Мы не будем подключать клиентов напрямую к вашим внутренним системам. Вместо этого, Личный Кабинет станет центральным сервисным хабом.
+              </p>
+              <p className="text-lg text-slate-700 leading-relaxed mb-6">
+                Представьте аэропорт. Пассажиры (ваши клиенты) не бегают по летному полю от одного самолета к другому. Они взаимодействуют только с терминалом (Личным Кабинетом). А уже терминал сам управляет посадкой на рейсы (WMS, 1С и т.д.).
+              </p>
+              <p className="text-lg text-slate-700 leading-relaxed mb-6">
+                Такой подход решает три главные задачи:
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="p-4 bg-slate-50 rounded-lg">
+                  <h4 className="text-lg font-bold text-[#003f5c] mb-2">Безопасность</h4>
+                  <p className="text-slate-700">Внутренние системы полностью изолированы.</p>
+                </div>
+                <div className="p-4 bg-slate-50 rounded-lg">
+                  <h4 className="text-lg font-bold text-[#003f5c] mb-2">Управляемость</h4>
+                  <p className="text-slate-700">Весь поток данных проходит через одну точку, что легко контролировать.</p>
+                </div>
+                <div className="p-4 bg-slate-50 rounded-lg">
+                  <h4 className="text-lg font-bold text-[#003f5c] mb-2">Гибкость</h4>
+                  <p className="text-slate-700">Если вы решите поменять, например, CRM-систему, нам нужно будет перенастроить только один «шлюз» к Личному Кабинету, а не переделывать всё с нуля.</p>
+                </div>
+              </div>
             </div>
             
             <div className="relative min-h-[600px] md:min-h-[750px] flex items-center justify-center">
@@ -315,6 +463,45 @@ export function ConceptContent() {
             </div>
           </section>
 
+          {/* Как это работает на практике */}
+          <section className="my-16">
+            <div className="bg-white rounded-lg shadow-md p-8 max-w-5xl mx-auto">
+              <h3 className="text-2xl font-bold text-[#003f5c] mb-6">Как это работает на практике?</h3>
+              <p className="text-lg text-slate-700 leading-relaxed mb-8">
+                Личный Кабинет будет обмениваться данными с каждой вашей системой по четко определенным правилам:
+              </p>
+              
+              <div className="space-y-8">
+                <div className="p-6 bg-slate-50 rounded-lg">
+                  <h4 className="text-lg font-bold text-[#003f5c] mb-3">WMS (Склад) ↔ Личный Кабинет</h4>
+                  <p className="text-slate-700 mb-3"><strong>Связь:</strong> Двусторонняя, это «сердце» операций.</p>
+                  <p className="text-slate-700 mb-2"><strong>Что отдает WMS:</strong> Информацию об остатках, партиях, сроках годности и статусах приемки/отгрузки в разрезе каждого склада.</p>
+                  <p className="text-slate-700"><strong>Что получает WMS:</strong> Заявки на отгрузку, поставку и возврат товара, которые теперь содержат конкретный склад, единицы измерения (шт, кор, плт) и объявленную ценность товара для корректного страхования и учета ответственности.</p>
+                </div>
+                
+                <div className="p-6 bg-slate-50 rounded-lg">
+                  <h4 className="text-lg font-bold text-[#ef5675] mb-3">1С (Бухгалтерия) → Личный Кабинет</h4>
+                  <p className="text-slate-700 mb-3"><strong>Связь:</strong> Односторонняя, это «банк».</p>
+                  <p className="text-slate-700"><strong>Что отдает 1С:</strong> Готовые финансовые документы (счета-фактуры, акты) и их статусы оплаты.</p>
+                </div>
+                
+                <div className="p-6 bg-slate-50 rounded-lg">
+                  <h4 className="text-lg font-bold text-[#ff764a] mb-3">CRM (Клиенты) ↔ Личный Кабинет</h4>
+                  <p className="text-slate-700 mb-3"><strong>Связь:</strong> Двусторонняя, это «адресная книга».</p>
+                  <p className="text-slate-700 mb-2"><strong>Что отдает CRM:</strong> Справочник клиентов и их точек доставки.</p>
+                  <p className="text-slate-700"><strong>Что получает CRM:</strong> Информацию об активности клиента в ЛК для обогащения его карточки.</p>
+                </div>
+                
+                <div className="p-6 bg-slate-50 rounded-lg">
+                  <h4 className="text-lg font-bold text-[#ffa600] mb-3">Сервис маршрутизации ↔ Личный Кабинет</h4>
+                  <p className="text-slate-700 mb-3"><strong>Связь:</strong> Двусторонняя, это «навигатор».</p>
+                  <p className="text-slate-700 mb-2"><strong>Что получает сервис:</strong> Задачи на доставку с адресами.</p>
+                  <p className="text-slate-700"><strong>Что отдает сервис:</strong> Статус заказа («В пути», «Доставлен») и координаты для отслеживания на карте.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <section className="my-20">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-slate-800">Ключевые преимущества архитектуры</h2>
@@ -345,6 +532,16 @@ export function ConceptContent() {
                   а не всей архитектуры.
                 </p>
               </div>
+            </div>
+          </section>
+
+          {/* Заключение */}
+          <section className="my-16">
+            <div className="bg-white rounded-lg shadow-md p-8 max-w-5xl mx-auto">
+              <h3 className="text-2xl font-bold text-[#003f5c] mb-6">Заключение</h3>
+              <p className="text-lg text-slate-700 leading-relaxed">
+                Предлагаемая архитектура — это не просто техническое решение. Это стратегический фундамент, который обеспечивает надежность и безопасность сегодня, и позволяет легко добавлять новые сервисы и функции в будущем, не затрагивая ядро вашего бизнеса.
+              </p>
             </div>
           </section>
         </div>
