@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { SupportTicketList } from "./SupportTicketList";
 import { SupportTicketView } from "./SupportTicketView";
@@ -6,6 +5,7 @@ import { SupportTicketView } from "./SupportTicketView";
 export interface SupportTicket {
   id: string;
   subject: string;
+  category?: string;
   date: string;
   status: "open" | "in-progress" | "answered" | "closed";
   messages: SupportMessage[];
@@ -23,6 +23,7 @@ const mockTickets: SupportTicket[] = [
   {
     id: "785",
     subject: "Неверное количество товара в отчете",
+    category: "technical",
     date: "17.06.2025",
     status: "answered",
     messages: [
@@ -43,6 +44,7 @@ const mockTickets: SupportTicket[] = [
   {
     id: "781",
     subject: "Вопрос по срокам доставки заказа №742",
+    category: "delivery",
     date: "15.06.2025",
     status: "closed",
     messages: [
@@ -69,6 +71,7 @@ const mockTickets: SupportTicket[] = [
   {
     id: "779",
     subject: "Проблема с выгрузкой отчета",
+    category: "technical",
     date: "14.06.2025",
     status: "closed",
     messages: [
@@ -109,6 +112,7 @@ export function SupportContent() {
     const newTicket: SupportTicket = {
       id: (Math.floor(Math.random() * 1000) + 800).toString(),
       subject: ticketData.subject,
+      category: ticketData.category,
       date: new Date().toLocaleDateString('ru-RU'),
       status: "open",
       messages: [

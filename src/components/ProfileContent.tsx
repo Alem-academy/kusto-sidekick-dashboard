@@ -3,14 +3,11 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { User, Settings, Users, HelpCircle, Plus, Key } from "lucide-react";
+import { User, Settings, Users, Plus, Key } from "lucide-react";
 
 export function ProfileContent() {
-  const [supportMessage, setSupportMessage] = useState("");
-
   const users = [
     {
       id: 1,
@@ -34,25 +31,17 @@ export function ProfileContent() {
     }
   ];
 
-  const handleSupportSubmit = () => {
-    if (supportMessage.trim()) {
-      console.log("Отправка обращения:", supportMessage);
-      setSupportMessage("");
-      // Здесь можно добавить логику отправки
-    }
-  };
-
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Профиль и поддержка</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Профиль и настройки</h1>
           <p className="text-gray-600 mt-1">Настройки аккаунта и управление системой</p>
         </div>
       </div>
 
       <Tabs defaultValue="profile" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="profile" className="flex items-center gap-2">
             <User className="w-4 h-4" />
             Настройки профиля
@@ -60,10 +49,6 @@ export function ProfileContent() {
           <TabsTrigger value="users" className="flex items-center gap-2">
             <Users className="w-4 h-4" />
             Управление пользователями
-          </TabsTrigger>
-          <TabsTrigger value="support" className="flex items-center gap-2">
-            <HelpCircle className="w-4 h-4" />
-            Служба поддержки
           </TabsTrigger>
         </TabsList>
 
@@ -150,60 +135,6 @@ export function ProfileContent() {
                     ))}
                   </TableBody>
                 </Table>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Support Tab */}
-        <TabsContent value="support" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <HelpCircle className="w-5 h-5 text-blue-600" />
-                Обратиться в службу поддержки
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Опишите ваш вопрос или проблему
-                </label>
-                <Textarea
-                  placeholder="Введите подробное описание вашего обращения..."
-                  value={supportMessage}
-                  onChange={(e) => setSupportMessage(e.target.value)}
-                  rows={6}
-                />
-              </div>
-              <Button 
-                className="bg-blue-600 hover:bg-blue-700"
-                onClick={handleSupportSubmit}
-                disabled={!supportMessage.trim()}
-              >
-                Отправить обращение
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Контактная информация</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="p-3 bg-blue-50 rounded-lg">
-                  <div className="font-medium">Телефон поддержки</div>
-                  <div className="text-blue-600">+7 (727) 456-78-90</div>
-                </div>
-                <div className="p-3 bg-green-50 rounded-lg">
-                  <div className="font-medium">Email поддержки</div>
-                  <div className="text-green-600">support@mks-almaty.kz</div>
-                </div>
-                <div className="p-3 bg-yellow-50 rounded-lg">
-                  <div className="font-medium">Время работы</div>
-                  <div className="text-yellow-700">Пн-Пт: 9:00 - 18:00 (GMT+6)</div>
-                </div>
               </div>
             </CardContent>
           </Card>

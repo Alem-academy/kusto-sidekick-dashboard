@@ -34,6 +34,30 @@ const getStatusBadge = (status: SupportTicket['status']) => {
   }
 };
 
+const getCategoryBadge = (category: string) => {
+  const categoryColors: Record<string, string> = {
+    'technical': 'bg-blue-100 text-blue-800',
+    'order': 'bg-green-100 text-green-800',
+    'delivery': 'bg-yellow-100 text-yellow-800',
+    'billing': 'bg-purple-100 text-purple-800',
+    'other': 'bg-gray-100 text-gray-800'
+  };
+
+  const categoryNames: Record<string, string> = {
+    'technical': 'Техническая поддержка',
+    'order': 'Вопросы по заказам',
+    'delivery': 'Доставка',
+    'billing': 'Биллинг',
+    'other': 'Прочее'
+  };
+
+  return (
+    <span className={`px-2 py-1 rounded-full text-xs font-medium ${categoryColors[category] || categoryColors.other}`}>
+      {categoryNames[category] || category}
+    </span>
+  );
+};
+
 export function SupportTicketList({ tickets, onTicketSelect, onCreateTicket }: SupportTicketListProps) {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
@@ -79,6 +103,7 @@ export function SupportTicketList({ tickets, onTicketSelect, onCreateTicket }: S
                 <TableHeader>
                   <TableRow>
                     <TableHead>ID</TableHead>
+                    <TableHead>Категория</TableHead>
                     <TableHead>Тема</TableHead>
                     <TableHead>Дата создания</TableHead>
                     <TableHead>Статус</TableHead>
@@ -92,6 +117,7 @@ export function SupportTicketList({ tickets, onTicketSelect, onCreateTicket }: S
                       onClick={() => onTicketSelect(ticket)}
                     >
                       <TableCell className="font-mono text-sm">#{ticket.id}</TableCell>
+                      <TableCell>{getCategoryBadge(ticket.category || 'other')}</TableCell>
                       <TableCell className="font-medium">{ticket.subject}</TableCell>
                       <TableCell>{ticket.date}</TableCell>
                       <TableCell>{getStatusBadge(ticket.status)}</TableCell>
