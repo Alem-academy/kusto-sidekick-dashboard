@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,6 +12,7 @@ import { DeliveryRequest, deliveryStatusLabels, deliveryStatusColors, DeliverySt
 const mockDeliveries: DeliveryRequest[] = [
   {
     id: "DEL-001",
+    warehouseId: "warehouse-1",
     plannedDate: "2024-06-20",
     plannedTime: "10:00",
     transportNumber: "А123БВ777",
@@ -28,7 +28,8 @@ const mockDeliveries: DeliveryRequest[] = [
     updatedAt: "2024-06-18T14:30:00Z"
   },
   {
-    id: "DEL-002", 
+    id: "DEL-002",
+    warehouseId: "warehouse-2", 
     plannedDate: "2024-06-19",
     plannedTime: "14:30",
     transportNumber: "В456ГД888",
@@ -44,6 +45,7 @@ const mockDeliveries: DeliveryRequest[] = [
   },
   {
     id: "DEL-003",
+    warehouseId: "warehouse-3",
     plannedDate: "2024-06-18",
     plannedTime: "09:00", 
     transportNumber: "С789ЕЖ999",
