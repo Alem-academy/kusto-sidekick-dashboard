@@ -1,6 +1,5 @@
+
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
@@ -9,37 +8,18 @@ import { WarehouseSelector } from "./WarehouseSelector";
 import { DeliveryBasicInfo } from "./DeliveryBasicInfo";
 import { DeliveryItemsTable } from "./DeliveryItemsTable";
 import { DeliveryDocuments } from "./DeliveryDocuments";
+import { DeliveryFormProvider, DeliveryFormData } from "./DeliveryFormProvider";
+import { DeliveryFormActions } from "./DeliveryFormActions";
+import { DeliveryValueSummary } from "./DeliveryValueSummary";
 
 interface CreateDeliveryFormProps {
   onSuccess: () => void;
-}
-
-interface DeliveryFormData {
-  warehouseId: string;
-  plannedDate: string;
-  plannedTime: string;
-  transportNumber: string;
-  driverName: string;
-  driverPhone: string;
-  notes?: string;
 }
 
 export function CreateDeliveryForm({ onSuccess }: CreateDeliveryFormProps) {
   const { toast } = useToast();
   const [items, setItems] = useState<DeliveryItem[]>([]);
   const [documents, setDocuments] = useState<File[]>([]);
-  
-  const form = useForm<DeliveryFormData>({
-    defaultValues: {
-      warehouseId: "",
-      plannedDate: "",
-      plannedTime: "",
-      transportNumber: "",
-      driverName: "",
-      driverPhone: "",
-      notes: ""
-    }
-  });
 
   const addItem = () => {
     const newItem: DeliveryItem = {
@@ -81,6 +61,12 @@ export function CreateDeliveryForm({ onSuccess }: CreateDeliveryFormProps) {
         item.declaredUnitPrice * item.plannedQuantity : 0;
       return total + itemValue;
     }, 0);
+  };
+
+  const resetForm = (form: any) => {
+    form.reset();
+    setItems([]);
+    setDocuments([]);
   };
 
   const onSubmit = (data: DeliveryFormData) => {
@@ -127,7 +113,6 @@ export function CreateDeliveryForm({ onSuccess }: CreateDeliveryFormProps) {
       description: `Заявка на поставку создана${totalDeclaredValue > 0 ? `. Общая объявленная стоимость: ${totalDeclaredValue.toLocaleString()} тенге` : ""}`
     });
     
-    form.reset();
     setItems([]);
     setDocuments([]);
     onSuccess();
@@ -142,62 +127,38 @@ export function CreateDeliveryForm({ onSuccess }: CreateDeliveryFormProps) {
           <CardTitle>Создать заявку на поставку</CardTitle>
         </CardHeader>
         <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/* Выбор склада */}
-              <WarehouseSelector control={form.control} />
+          <DeliveryFormProvider>
+            {(form) => (
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <WarehouseSelector control={form.control} />
+                  <DeliveryBasicInfo control={form.control} />
+                  
+                  <DeliveryItemsTable
+                    items={items}
+                    onAddItem={addItem}
+                    onUpdateItem={updateItem}
+                    onRemoveItem={removeItem}
+                  />
 
-              {/* Основная информация */}
-              <DeliveryBasicInfo control={form.control} />
+                  <DeliveryValueSummary totalDeclaredValue={totalDeclaredValue} />
 
-              {/* Товары */}
-              <DeliveryItemsTable
-                items={items}
-                onAddItem={addItem}
-                onUpdateItem={updateItem}
-                onRemoveItem={removeItem}
-              />
+                  <DeliveryDocuments
+                    documents={documents}
+                    onFileUpload={handleFileUpload}
+                    onRemoveDocument={removeDocument}
+                  />
 
-              {/* Сводка по объявленной стоимости */}
-              {totalDeclaredValue > 0 && (
-                <Card className="bg-blue-50 border-blue-200">
-                  <CardContent className="pt-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-blue-800">
-                        Общая объявленная стоимость:
-                      </span>
-                      <span className="text-lg font-bold text-blue-900">
-                        {totalDeclaredValue.toLocaleString()} тенге
-                      </span>
-                    </div>
-                    <p className="text-xs text-blue-600 mt-1">
-                      Эта сумма будет использована для расчета страхового возмещения
-                    </p>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Документы */}
-              <DeliveryDocuments
-                documents={documents}
-                onFileUpload={handleFileUpload}
-                onRemoveDocument={removeDocument}
-              />
-
-              <div className="flex justify-end gap-4">
-                <Button type="button" variant="outline" onClick={() => {
-                  form.reset();
-                  setItems([]);
-                  setDocuments([]);
-                }}>
-                  Отменить
-                </Button>
-                <Button type="submit">
-                  Создать заявку
-                </Button>
-              </div>
-            </form>
-          </Form>
+                  <DeliveryFormActions
+                    form={form}
+                    items={items}
+                    documents={documents}
+                    onReset={() => resetForm(form)}
+                  />
+                </form>
+              </Form>
+            )}
+          </DeliveryFormProvider>
         </CardContent>
       </Card>
     </div>
