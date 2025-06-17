@@ -15,7 +15,7 @@ const mockDeliveries: DeliveryRequest[] = [
     warehouseId: "warehouse-1",
     plannedDate: "2024-06-20",
     plannedTime: "10:00",
-    transportNumber: "А123БВ777",
+    transportNumber: "123 ABC 01",
     driverName: "Иванов Иван Иванович",
     driverPhone: "+7 (900) 123-45-67",
     items: [
@@ -32,7 +32,7 @@ const mockDeliveries: DeliveryRequest[] = [
     warehouseId: "warehouse-2", 
     plannedDate: "2024-06-19",
     plannedTime: "14:30",
-    transportNumber: "В456ГД888",
+    transportNumber: "456 BCD 02",
     driverName: "Петров Петр Петрович",
     driverPhone: "+7 (900) 987-65-43",
     items: [
@@ -48,7 +48,7 @@ const mockDeliveries: DeliveryRequest[] = [
     warehouseId: "warehouse-3",
     plannedDate: "2024-06-18",
     plannedTime: "09:00", 
-    transportNumber: "С789ЕЖ999",
+    transportNumber: "789 CDE 03",
     driverName: "Сидоров Сидор Сидорович",
     driverPhone: "+7 (900) 555-44-33",
     items: [
