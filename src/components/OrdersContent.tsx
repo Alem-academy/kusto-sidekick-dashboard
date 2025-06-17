@@ -110,10 +110,9 @@ export function OrdersContent() {
       </div>
 
       <Tabs defaultValue="clients" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="clients">Мои клиенты</TabsTrigger>
           <TabsTrigger value="create">Создать заказ</TabsTrigger>
-          <TabsTrigger value="prototype">Прототип заказа</TabsTrigger>
           <TabsTrigger value="history">История заказов</TabsTrigger>
         </TabsList>
 
@@ -167,117 +166,7 @@ export function OrdersContent() {
           </div>
         </TabsContent>
 
-        <TabsContent value="create" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Plus className="w-5 h-5 text-blue-600" />
-                Новый заказ
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Client and Delivery Point Selection */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <Label htmlFor="client-select">Выберите клиента</Label>
-                  <select id="client-select" className="w-full h-10 px-3 py-2 border border-gray-300 rounded-md">
-                    <option value="">Выберите клиента...</option>
-                    <option value="1">ТОО "Ресторанный Двор"</option>
-                    <option value="2">ООО "Вкусмарт"</option>
-                    <option value="3">ИП Сокова А.А.</option>
-                  </select>
-                </div>
-                <div>
-                  <Label htmlFor="delivery-point-select">Выберите точку доставки</Label>
-                  <select id="delivery-point-select" className="w-full h-10 px-3 py-2 border border-gray-300 rounded-md">
-                    <option value="">Выберите точку доставки...</option>
-                    <option value="1">Ресторан на Абая</option>
-                    <option value="2">Ресторан на Сатпаева</option>
-                    <option value="3">Кафе в ТРЦ Мега</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Order Details */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="phone">Телефон</Label>
-                    <Input id="phone" placeholder="+7 (___) ___-__-__" />
-                  </div>
-                  <div>
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="email@example.com" />
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="delivery">Способ доставки</Label>
-                    <select id="delivery" className="w-full h-10 px-3 py-2 border border-gray-300 rounded-md">
-                      <option>Самовывоз</option>
-                      <option>Курьер</option>
-                      <option>Транспортная компания</option>
-                    </select>
-                  </div>
-                  <div>
-                    <Label htmlFor="delivery-date">Дата доставки</Label>
-                    <Input id="delivery-date" type="date" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Products Selection */}
-              <Card className="bg-gray-50">
-                <CardHeader>
-                  <CardTitle className="text-lg">Товары в заказе</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                      <div>
-                        <Label>Товар</Label>
-                        <select className="w-full h-10 px-3 py-2 border border-gray-300 rounded-md">
-                          <option>Сок яблочный Rich 1л</option>
-                          <option>Сок апельсиновый Tropicana 1л</option>
-                          <option>Сок мультифрукт Добрый 0.5л</option>
-                          <option>Сок томатный Я 1л</option>
-                          <option>Сок виноградный Santal 1л</option>
-                        </select>
-                      </div>
-                      <div>
-                        <Label>Количество</Label>
-                        <Input type="number" placeholder="0" min="1" />
-                      </div>
-                      <div>
-                        <Label>Цена за единицу</Label>
-                        <Input type="number" placeholder="0.00" step="0.01" />
-                      </div>
-                      <div className="flex items-end">
-                        <Button className="w-full">Добавить</Button>
-                      </div>
-                    </div>
-                    
-                    <div className="border-t pt-4">
-                      <p className="text-sm text-gray-600 mb-2">Добавленные товары:</p>
-                      <div className="text-sm text-gray-500">Товары пока не добавлены</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <div className="flex gap-4">
-                <Button className="bg-blue-600 hover:bg-blue-700">
-                  Создать заказ
-                </Button>
-                <Button variant="outline">
-                  Сохранить как черновик
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="prototype">
+        <TabsContent value="create">
           <CreateOrderPage />
         </TabsContent>
 
