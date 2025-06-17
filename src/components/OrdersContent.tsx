@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ShoppingCart, Plus, Truck, Clock, CheckCircle, CalendarDays, Users, MapPin } from "lucide-react";
+import { CreateOrderPage } from "./CreateOrderPage";
 
 export function OrdersContent() {
   const orders = [
@@ -109,9 +110,10 @@ export function OrdersContent() {
       </div>
 
       <Tabs defaultValue="clients" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="clients">Мои клиенты</TabsTrigger>
           <TabsTrigger value="create">Создать заказ</TabsTrigger>
+          <TabsTrigger value="prototype">Прототип заказа</TabsTrigger>
           <TabsTrigger value="history">История заказов</TabsTrigger>
         </TabsList>
 
@@ -273,6 +275,10 @@ export function OrdersContent() {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="prototype">
+          <CreateOrderPage />
         </TabsContent>
 
         <TabsContent value="history" className="space-y-6">
