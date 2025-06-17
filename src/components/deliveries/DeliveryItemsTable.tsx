@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Trash2, Info } from "lucide-react";
 import { DeliveryItem, unitOptions } from "./types";
@@ -84,118 +83,116 @@ export function DeliveryItemsTable({
       </div>
 
       {items.length > 0 && (
-        <Card>
-          <CardContent className="pt-6">
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[200px]">SKU</TableHead>
-                    <TableHead className="w-[300px]">Наименование</TableHead>
-                    <TableHead className="w-[120px]">Количество</TableHead>
-                    <TableHead className="w-[140px]">Единица</TableHead>
-                    <TableHead className="w-[150px]">Стоимость за ед.</TableHead>
-                    <TableHead className="w-[150px]">Общая стоимость</TableHead>
-                    <TableHead className="w-[80px]">Действия</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {items.map((item) => (
-                    <TableRow key={item.id}>
-                      <TableCell className="w-[200px]">
-                        <Input
-                          value={item.sku}
-                          onChange={(e) => onUpdateItem(item.id, "sku", e.target.value)}
-                          placeholder="JUICE-001"
-                          className="min-w-0"
-                        />
-                      </TableCell>
-                      <TableCell className="w-[300px]">
-                        <Input
-                          value={item.name}
-                          onChange={(e) => onUpdateItem(item.id, "name", e.target.value)}
-                          placeholder="Сок яблочный 1л"
-                          className="min-w-0"
-                        />
-                      </TableCell>
-                      <TableCell className="w-[120px]">
-                        <Input
-                          type="number"
-                          min="1"
-                          value={item.plannedQuantity || ""}
-                          onChange={(e) => onUpdateItem(item.id, "plannedQuantity", parseInt(e.target.value) || 0)}
-                          onBlur={(e) => handleQuantityBlur(item.id, e.target.value)}
-                          className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield] min-w-0"
-                        />
-                      </TableCell>
-                      <TableCell className="w-[140px]">
-                        <Select
-                          value={item.unit}
-                          onValueChange={(value) => onUpdateItem(item.id, "unit", value)}
-                        >
-                          <SelectTrigger className="min-w-0">
-                            <SelectValue placeholder="Выберите единицу" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {unitOptions.map((option) => (
-                              <SelectItem key={option.value} value={option.value}>
-                                {option.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </TableCell>
-                      <TableCell className="w-[150px]">
-                        <Input
-                          type="number"
-                          min="0"
-                          step="0.01"
-                          value={item.declaredUnitPrice || ""}
-                          onChange={(e) => onUpdateItem(item.id, "declaredUnitPrice", parseFloat(e.target.value) || 0)}
-                          onBlur={(e) => handleUnitPriceBlur(item.id, e.target.value)}
-                          placeholder="0.00"
-                          className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield] min-w-0"
-                        />
-                      </TableCell>
-                      <TableCell className="w-[150px]">
-                        <Input
-                          type="number"
-                          min="0"
-                          step="0.01"
-                          value={item.declaredTotalPrice || ""}
-                          onChange={(e) => onUpdateItem(item.id, "declaredTotalPrice", parseFloat(e.target.value) || 0)}
-                          onBlur={(e) => handleTotalPriceBlur(item.id, e.target.value)}
-                          placeholder="0.00"
-                          className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield] min-w-0"
-                        />
-                      </TableCell>
-                      <TableCell className="w-[80px]">
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => onRemoveItem(item.id)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-              <h4 className="text-sm font-medium text-gray-800 mb-2">Информация об объявленной стоимости</h4>
-              <ul className="text-xs text-gray-600 space-y-1">
-                <li>• Объявленная стоимость используется для расчета страхового возмещения</li>
-                <li>• Можно указать стоимость за единицу или общую стоимость партии</li>
-                <li>• При изменении одного поля другое пересчитывается автоматически</li>
-                <li>• Если поля не заполнены, применяются стандартные условия договора</li>
-              </ul>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="space-y-4">
+          {items.map((item, index) => (
+            <Card key={item.id} className="p-4">
+              <CardContent className="pt-0">
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="text-sm font-medium text-gray-700">Товар #{index + 1}</h4>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onRemoveItem(item.id)}
+                    className="text-red-600 hover:text-red-700"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">SKU</label>
+                    <Input
+                      value={item.sku}
+                      onChange={(e) => onUpdateItem(item.id, "sku", e.target.value)}
+                      placeholder="JUICE-001"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">Наименование</label>
+                    <Input
+                      value={item.name}
+                      onChange={(e) => onUpdateItem(item.id, "name", e.target.value)}
+                      placeholder="Сок яблочный 1л"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">Количество</label>
+                    <Input
+                      type="number"
+                      min="1"
+                      value={item.plannedQuantity || ""}
+                      onChange={(e) => onUpdateItem(item.id, "plannedQuantity", parseInt(e.target.value) || 0)}
+                      onBlur={(e) => handleQuantityBlur(item.id, e.target.value)}
+                      className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">Единица измерения</label>
+                    <Select
+                      value={item.unit}
+                      onValueChange={(value) => onUpdateItem(item.id, "unit", value)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Выберите единицу" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {unitOptions.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">Стоимость за единицу</label>
+                    <Input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={item.declaredUnitPrice || ""}
+                      onChange={(e) => onUpdateItem(item.id, "declaredUnitPrice", parseFloat(e.target.value) || 0)}
+                      onBlur={(e) => handleUnitPriceBlur(item.id, e.target.value)}
+                      placeholder="0.00"
+                      className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">Общая стоимость</label>
+                    <Input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={item.declaredTotalPrice || ""}
+                      onChange={(e) => onUpdateItem(item.id, "declaredTotalPrice", parseFloat(e.target.value) || 0)}
+                      onBlur={(e) => handleTotalPriceBlur(item.id, e.target.value)}
+                      placeholder="0.00"
+                      className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       )}
+
+      <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+        <h4 className="text-sm font-medium text-gray-800 mb-2">Информация об объявленной стоимости</h4>
+        <ul className="text-xs text-gray-600 space-y-1">
+          <li>• Объявленная стоимость используется для расчета страхового возмещения</li>
+          <li>• Можно указать стоимость за единицу или общую стоимость партии</li>
+          <li>• При изменении одного поля другое пересчитывается автоматически</li>
+          <li>• Если поля не заполнены, применяются стандартные условия договора</li>
+        </ul>
+      </div>
     </div>
   );
 }
