@@ -4,6 +4,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { DashboardContent } from "@/components/DashboardContent";
 import { WarehouseContent } from "@/components/WarehouseContent";
+import { ClientsContent } from "@/components/ClientsContent";
 import { OrdersContent } from "@/components/OrdersContent";
 import { ReportsContent } from "@/components/ReportsContent";
 import { DocumentsContent } from "@/components/DocumentsContent";
@@ -23,6 +24,8 @@ const Index = () => {
         return <DashboardContent onSectionChange={setActiveSection} />;
       case "warehouse":
         return <WarehouseContent />;
+      case "clients":
+        return <ClientsContent />;
       case "orders":
         return <OrdersContent />;
       case "reports":

@@ -1,11 +1,9 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ShoppingCart, Plus, Truck, Clock, CheckCircle, CalendarDays, Users, MapPin } from "lucide-react";
+import { ShoppingCart, Truck, Clock, CheckCircle, CalendarDays } from "lucide-react";
 import { CreateOrderPage } from "./CreateOrderPage";
-import { ClientManagement } from "./ClientManagement";
 
 export function OrdersContent() {
   const orders = [
@@ -91,20 +89,15 @@ export function OrdersContent() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Заказы и доставка</h1>
-          <p className="text-gray-600 mt-1">Управление клиентами, заказами и отслеживание доставки</p>
+          <p className="text-gray-600 mt-1">Управление заказами и отслеживание доставки</p>
         </div>
       </div>
 
-      <Tabs defaultValue="clients" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="clients">Мои клиенты</TabsTrigger>
+      <Tabs defaultValue="create" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="create">Создать заказ</TabsTrigger>
           <TabsTrigger value="history">История заказов</TabsTrigger>
         </TabsList>
-
-        <TabsContent value="clients" className="space-y-6">
-          <ClientManagement />
-        </TabsContent>
 
         <TabsContent value="create">
           <CreateOrderPage />
