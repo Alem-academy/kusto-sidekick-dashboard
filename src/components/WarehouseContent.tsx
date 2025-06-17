@@ -242,21 +242,21 @@ export function WarehouseContent() {
   };
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('ru-RU', {
+    return new Intl.NumberFormat('kk-KZ', {
       style: 'currency',
-      currency: 'RUB',
+      currency: 'KZT',
       minimumFractionDigits: 0
     }).format(value);
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="p-3 md:p-6 space-y-4 md:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Склад и остатки</h1>
-          <p className="text-gray-600 mt-1">Проактивное управление товарами и контроль остатков</p>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Склад и остатки</h1>
+          <p className="text-gray-600 mt-1 text-sm md:text-base">Проактивное управление товарами и контроль остатков</p>
         </div>
-        <Button className="bg-blue-600 hover:bg-blue-700">
+        <Button className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto">
           <Plus className="w-4 h-4 mr-2" />
           Добавить товар
         </Button>
@@ -276,7 +276,7 @@ export function WarehouseContent() {
         </div>
 
         {/* KPI карточки-фильтры */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
           <Card 
             className={`cursor-pointer transition-all hover:shadow-md ${
               activeFilter === "lowStock" ? "ring-2 ring-red-500 bg-red-50" : ""
@@ -284,11 +284,11 @@ export function WarehouseContent() {
             onClick={() => setActiveFilter(activeFilter === "lowStock" ? "all" : "lowStock")}
           >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Товары с низким остатком</CardTitle>
+              <CardTitle className="text-xs md:text-sm font-medium">Товары с низким остатком</CardTitle>
               <TrendingDown className="h-4 w-4 text-red-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-red-600">{kpiData.lowStockCount}</div>
+              <div className="text-xl md:text-2xl font-bold text-red-600">{kpiData.lowStockCount}</div>
               <p className="text-xs text-gray-600">SKU ниже минимального порога</p>
             </CardContent>
           </Card>
@@ -300,22 +300,22 @@ export function WarehouseContent() {
             onClick={() => setActiveFilter(activeFilter === "expiryRisk" ? "all" : "expiryRisk")}
           >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Риски по срокам годности</CardTitle>
+              <CardTitle className="text-xs md:text-sm font-medium">Риски по срокам годности</CardTitle>
               <Calendar className="h-4 w-4 text-orange-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-orange-600">{kpiData.expiryRiskCount}</div>
+              <div className="text-xl md:text-2xl font-bold text-orange-600">{kpiData.expiryRiskCount}</div>
               <p className="text-xs text-gray-600">SKU с истекающим сроком (&lt; 30 дней)</p>
             </CardContent>
           </Card>
 
           <Card className="cursor-pointer transition-all hover:shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Общая стоимость склада</CardTitle>
+              <CardTitle className="text-xs md:text-sm font-medium">Общая стоимость склада</CardTitle>
               <DollarSign className="h-4 w-4 text-green-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">{formatCurrency(kpiData.totalValue)}</div>
+              <div className="text-xl md:text-2xl font-bold text-green-600">{formatCurrency(kpiData.totalValue)}</div>
               <p className="text-xs text-gray-600">Суммарная стоимость всех товаров</p>
             </CardContent>
           </Card>
@@ -341,93 +341,163 @@ export function WarehouseContent() {
       {/* Детализированная таблица */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Archive className="w-5 h-5 text-blue-600" />
+          <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+            <Archive className="w-4 md:w-5 h-4 md:h-5 text-blue-600" />
             Детализированная таблица остатков ({filteredData.length} товаров)
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Наименование</TableHead>
-                <TableHead>Артикул</TableHead>
-                <TableHead>Количество</TableHead>
-                <TableHead>Дата прихода</TableHead>
-                <TableHead>Срок годности</TableHead>
-                <TableHead>Статус</TableHead>
-                <TableHead>Стоимость</TableHead>
-                <TableHead className="text-center">Действия</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredData.map((item) => (
-                <>
-                  {/* Основная строка товара */}
-                  <TableRow key={item.id} className="bg-gray-50 border-b-2 border-gray-200">
-                    <TableCell className="font-bold">
-                      <div className="flex items-center gap-2">
-                        <Package className="w-4 h-4 text-blue-600" />
-                        {item.name}
-                        {isLowStock(item) && (
-                          <span title="Низкий остаток">
-                            <AlertTriangle className="w-4 h-4 text-red-500" />
-                          </span>
-                        )}
-                        {hasExpiryRisk(item) && (
-                          <span title="Риск по сроку годности">
-                            <Calendar className="w-4 h-4 text-orange-500" />
-                          </span>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell className="font-mono text-sm font-semibold">{item.article}</TableCell>
-                    <TableCell className="font-bold text-lg">{item.totalQuantity} шт.</TableCell>
-                    <TableCell className="text-gray-500">—</TableCell>
-                    <TableCell className="text-gray-500">—</TableCell>
-                    <TableCell>
-                      <Badge className={getStatusColor(getWorstStatus(item.batches))}>
-                        {getStatusText(getWorstStatus(item.batches))}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="font-bold">{formatCurrency(item.totalValue)}</TableCell>
-                    <TableCell className="text-center">
-                      <div className="flex gap-1 justify-center">
-                        <Button size="sm" variant="outline">Изменить</Button>
-                        <Button size="sm" variant="outline">История</Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                  
-                  {/* Вложенные строки партий */}
+        <CardContent className="p-0 md:p-6">
+          {/* Mobile Card View */}
+          <div className="block md:hidden">
+            {filteredData.map((item) => (
+              <div key={item.id} className="border-b border-gray-200 p-4 space-y-3">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Package className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                      <h3 className="font-semibold text-sm text-gray-900 truncate">{item.name}</h3>
+                      {isLowStock(item) && (
+                        <span title="Низкий остаток">
+                          <AlertTriangle className="w-4 h-4 text-red-500 flex-shrink-0" />
+                        </span>
+                      )}
+                      {hasExpiryRisk(item) && (
+                        <span title="Риск по сроку годности">
+                          <Calendar className="w-4 h-4 text-orange-500 flex-shrink-0" />
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-gray-500 font-mono">{item.article}</p>
+                  </div>
+                  <Badge className={getStatusColor(getWorstStatus(item.batches))}>
+                    {getStatusText(getWorstStatus(item.batches))}
+                  </Badge>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="text-gray-500">Количество:</span>
+                    <p className="font-semibold">{item.totalQuantity} шт.</p>
+                  </div>
+                  <div>
+                    <span className="text-gray-500">Стоимость:</span>
+                    <p className="font-semibold">{formatCurrency(item.totalValue)}</p>
+                  </div>
+                </div>
+
+                {/* Mobile batch details */}
+                <div className="space-y-2">
+                  <p className="text-xs font-medium text-gray-700">Партии:</p>
                   {item.batches.map((batch, batchIndex) => (
-                    <TableRow key={batch.id} className="hover:bg-gray-50">
-                      <TableCell className="pl-8 text-sm text-gray-600">
-                        └─ Партия {batchIndex + 1}
-                      </TableCell>
-                      <TableCell className="text-sm text-gray-500">—</TableCell>
-                      <TableCell className="text-sm">{batch.quantity} шт.</TableCell>
-                      <TableCell className="text-sm">{batch.arrivalDate}</TableCell>
-                      <TableCell className="text-sm">{batch.expiryDate}</TableCell>
-                      <TableCell>
+                    <div key={batch.id} className="bg-gray-50 rounded p-2 text-xs">
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="font-medium">Партия {batchIndex + 1}</span>
                         <Badge variant="outline" className={getStatusColor(batch.status)}>
                           {getStatusText(batch.status)}
                         </Badge>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-gray-600">
+                        <div>Кол-во: {batch.quantity} шт.</div>
+                        <div>Стоимость: {formatCurrency(batch.quantity * batch.purchasePrice)}</div>
+                        <div>Приход: {batch.arrivalDate}</div>
+                        <div>Срок: {batch.expiryDate}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex gap-2 pt-2">
+                  <Button size="sm" variant="outline" className="flex-1 text-xs">Изменить</Button>
+                  <Button size="sm" variant="outline" className="flex-1 text-xs">История</Button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Table View */}
+          <div className="hidden md:block">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Наименование</TableHead>
+                  <TableHead>Артикул</TableHead>
+                  <TableHead>Количество</TableHead>
+                  <TableHead>Дата прихода</TableHead>
+                  <TableHead>Срок годности</TableHead>
+                  <TableHead>Статус</TableHead>
+                  <TableHead>Стоимость</TableHead>
+                  <TableHead className="text-center">Действия</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredData.map((item) => (
+                  <>
+                    {/* Основная строка товара */}
+                    <TableRow key={item.id} className="bg-gray-50 border-b-2 border-gray-200">
+                      <TableCell className="font-bold">
+                        <div className="flex items-center gap-2">
+                          <Package className="w-4 h-4 text-blue-600" />
+                          {item.name}
+                          {isLowStock(item) && (
+                            <span title="Низкий остаток">
+                              <AlertTriangle className="w-4 h-4 text-red-500" />
+                            </span>
+                          )}
+                          {hasExpiryRisk(item) && (
+                            <span title="Риск по сроку годности">
+                              <Calendar className="w-4 h-4 text-orange-500" />
+                            </span>
+                          )}
+                        </div>
                       </TableCell>
-                      <TableCell className="text-sm">
-                        {formatCurrency(batch.quantity * batch.purchasePrice)}
+                      <TableCell className="font-mono text-sm font-semibold">{item.article}</TableCell>
+                      <TableCell className="font-bold text-lg">{item.totalQuantity} шт.</TableCell>
+                      <TableCell className="text-gray-500">—</TableCell>
+                      <TableCell className="text-gray-500">—</TableCell>
+                      <TableCell>
+                        <Badge className={getStatusColor(getWorstStatus(item.batches))}>
+                          {getStatusText(getWorstStatus(item.batches))}
+                        </Badge>
                       </TableCell>
+                      <TableCell className="font-bold">{formatCurrency(item.totalValue)}</TableCell>
                       <TableCell className="text-center">
-                        <Button size="sm" variant="ghost" className="text-xs">
-                          Детали
-                        </Button>
+                        <div className="flex gap-1 justify-center">
+                          <Button size="sm" variant="outline">Изменить</Button>
+                          <Button size="sm" variant="outline">История</Button>
+                        </div>
                       </TableCell>
                     </TableRow>
-                  ))}
-                </>
-              ))}
-            </TableBody>
-          </Table>
+                    
+                    {/* Вложенные строки партий */}
+                    {item.batches.map((batch, batchIndex) => (
+                      <TableRow key={batch.id} className="hover:bg-gray-50">
+                        <TableCell className="pl-8 text-sm text-gray-600">
+                          └─ Партия {batchIndex + 1}
+                        </TableCell>
+                        <TableCell className="text-sm text-gray-500">—</TableCell>
+                        <TableCell className="text-sm">{batch.quantity} шт.</TableCell>
+                        <TableCell className="text-sm">{batch.arrivalDate}</TableCell>
+                        <TableCell className="text-sm">{batch.expiryDate}</TableCell>
+                        <TableCell>
+                          <Badge variant="outline" className={getStatusColor(batch.status)}>
+                            {getStatusText(batch.status)}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-sm">
+                          {formatCurrency(batch.quantity * batch.purchasePrice)}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          <Button size="sm" variant="ghost" className="text-xs">
+                            Детали
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
           
           {filteredData.length === 0 && (
             <div className="text-center py-8 text-gray-500">
