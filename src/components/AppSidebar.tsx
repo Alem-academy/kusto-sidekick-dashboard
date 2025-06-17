@@ -81,25 +81,37 @@ export function AppSidebar({ activeSection, onSectionChange }: AppSidebarProps) 
                       w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200
                       ${activeSection === item.id
                         ? item.id === "concept"
-                          ? "bg-yellow-100 text-yellow-800 border-r-2 border-yellow-600"
+                          ? "bg-orange-100 text-orange-800 border-r-2 border-orange-600 shadow-lg"
                           : item.id === "support"
                           ? "bg-purple-100 text-purple-800 border-r-2 border-purple-600"
                           : "bg-blue-50 text-blue-700 border-r-2 border-blue-600"
+                        : item.id === "concept"
+                        ? "bg-orange-50 text-orange-700 border border-orange-200 shadow-md hover:bg-orange-100 hover:text-orange-800 hover:shadow-lg"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                       }
+                      ${item.id === "concept" ? "relative" : ""}
                     `}
                   >
                     <item.icon className={`w-5 h-5 ${
                       activeSection === item.id 
                         ? item.id === "concept" 
-                          ? "text-yellow-600" 
+                          ? "text-orange-600" 
                           : item.id === "support"
                           ? "text-purple-600"
                           : "text-blue-600" 
+                        : item.id === "concept"
+                        ? "text-orange-600"
                         : ""
                     }`} />
                     {!collapsed && (
-                      <span className="font-medium">{item.title}</span>
+                      <span className={`font-medium ${item.id === "concept" ? "font-semibold" : ""}`}>
+                        {item.title}
+                      </span>
+                    )}
+                    {item.id === "concept" && !collapsed && (
+                      <div className="ml-auto">
+                        <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                      </div>
                     )}
                   </SidebarMenuButton>
                 </SidebarMenuItem>
