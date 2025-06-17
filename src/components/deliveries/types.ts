@@ -10,6 +10,7 @@ export interface DeliveryItem {
 
 export interface DeliveryRequest {
   id: string;
+  warehouseId: string;
   plannedDate: string;
   plannedTime: string;
   transportNumber: string;

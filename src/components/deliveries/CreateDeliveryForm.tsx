@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -10,12 +9,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Plus, Trash2, Upload, FileText } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { DeliveryItem } from "./types";
+import { WarehouseSelector } from "./WarehouseSelector";
 
 interface CreateDeliveryFormProps {
   onSuccess: () => void;
 }
 
 interface DeliveryFormData {
+  warehouseId: string;
   plannedDate: string;
   plannedTime: string;
   transportNumber: string;
@@ -31,6 +32,7 @@ export function CreateDeliveryForm({ onSuccess }: CreateDeliveryFormProps) {
   
   const form = useForm<DeliveryFormData>({
     defaultValues: {
+      warehouseId: "",
       plannedDate: "",
       plannedTime: "",
       transportNumber: "",
@@ -73,6 +75,15 @@ export function CreateDeliveryForm({ onSuccess }: CreateDeliveryFormProps) {
   };
 
   const onSubmit = (data: DeliveryFormData) => {
+    if (!data.warehouseId) {
+      toast({
+        title: "Ошибка",
+        description: "Выберите адрес склада",
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (items.length === 0) {
       toast({
         title: "Ошибка",
@@ -115,6 +126,9 @@ export function CreateDeliveryForm({ onSuccess }: CreateDeliveryFormProps) {
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              {/* Выбор склада */}
+              <WarehouseSelector control={form.control} />
+
               {/* Основная информация */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
