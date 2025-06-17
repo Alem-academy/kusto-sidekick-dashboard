@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function ConceptContent() {
@@ -352,7 +351,13 @@ export function ConceptContent() {
 
         {/* Footer */}
         <footer className="text-center mt-16 py-8 bg-slate-800 text-slate-400 rounded-lg">
-          <p>&copy; 2025 MKS-Kusto. Цифровая платформа и архитектура интеграции.</p>
+          <div className="space-y-2">
+            <p>&copy; 2025 Предложение для MKS-Kusto. Цифровая платформа для сервиса клиентам и архитектура интеграции.</p>
+            <div className="space-y-1">
+              <p>Телефон: +7 702 5400055</p>
+              <p>Whatsapp: +7 705 2238899</p>
+            </div>
+          </div>
         </footer>
       </div>
     </div>
