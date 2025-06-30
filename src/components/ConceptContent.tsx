@@ -558,11 +558,13 @@ export function ConceptContent() {
             {/* Инфографика этапов реализации */}
             <div className="my-16 flex justify-center">
               <div className="max-w-lg w-full">
-                <img 
-                  src="/lovable-uploads/00287c58-5097-444a-8067-3c077b177aee.png" 
-                  alt="Этапы реализации проекта: 1. Разработка платформы, 2. Интеграция системы, 3. Обучение клиентов, 4. Запуск платформы, 5. Поддержка и развитие" 
-                  className="w-full h-auto rounded-lg shadow-lg"
-                />
+                <div className="bg-gradient-to-br from-slate-800 to-slate-900 p-8 rounded-xl shadow-2xl">
+                  <img 
+                    src="/lovable-uploads/00287c58-5097-444a-8067-3c077b177aee.png" 
+                    alt="Этапы реализации проекта: 1. Разработка платформы, 2. Интеграция системы, 3. Обучение клиентов, 4. Запуск платформы, 5. Поддержка и развитие" 
+                    className="w-full h-auto rounded-lg"
+                  />
+                </div>
                 <p className="text-center text-slate-500 text-sm mt-4">
                   Поэтапная реализация проекта от разработки до поддержки
                 </p>
@@ -604,7 +606,7 @@ export function ConceptContent() {
                         <h6 className="font-semibold text-slate-800 mb-2">Что включает:</h6>
                         <ul className="text-sm text-slate-700 space-y-1">
                           <li>• <strong>Формирование проектной команды:</strong> Выделение и закрепление ключевых специалистов: менеджера проекта, системного архитектора и UX/UI дизайнера</li>
-                          <li>• <strong>Проектирование архитектуры:</strong> Серия воркшопов с вашей командой для изучения бизнес-процессов и создание технической архитектуры</li>
+                          <li>• <strong>Проектирование архитектуры:</strong> Серия воркшопов с вашей командой для изучения бизнес-процессов и создания технической архитектуры</li>
                           <li>• <strong>UX/UI дизайн и прототипирование:</strong> Разработка интерактивных прототипов всех ключевых экранов системы</li>
                         </ul>
                       </div>
