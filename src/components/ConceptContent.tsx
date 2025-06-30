@@ -737,6 +737,22 @@ export function ConceptContent() {
             </div>
           </section>
 
+          {/* Инфографика архитектуры интеграции */}
+          <div className="my-16 flex justify-center">
+            <div className="max-w-4xl w-full">
+              <div className="bg-white p-8 rounded-xl shadow-lg border border-slate-200">
+                <img 
+                  src="/lovable-uploads/baf7ce40-f43f-4030-9871-4916ac84557c.png" 
+                  alt="Интеграция системы с Личным Кабинетом: WMS Integration, 1C Integration, CRM Integration, Routing Service Integration" 
+                  className="w-full h-auto rounded-lg"
+                />
+              </div>
+              <p className="text-center text-slate-500 text-sm mt-4">
+                Схема интеграции различных систем с Личным Кабинетом
+              </p>
+            </div>
+          </div>
+
           <section className="my-20">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-slate-800">Наша философия: Центральный Хаб</h2>
