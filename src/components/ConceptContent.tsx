@@ -555,6 +555,20 @@ export function ConceptContent() {
               </p>
             </div>
 
+            {/* Инфографика этапов реализации */}
+            <div className="my-16 flex justify-center">
+              <div className="max-w-lg w-full">
+                <img 
+                  src="/lovable-uploads/00287c58-5097-444a-8067-3c077b177aee.png" 
+                  alt="Этапы реализации проекта: 1. Разработка платформы, 2. Интеграция системы, 3. Обучение клиентов, 4. Запуск платформы, 5. Поддержка и развитие" 
+                  className="w-full h-auto rounded-lg shadow-lg"
+                />
+                <p className="text-center text-slate-500 text-sm mt-4">
+                  Поэтапная реализация проекта от разработки до поддержки
+                </p>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
               <div className="bg-white rounded-lg shadow-lg p-8 border-4 border-blue-200">
                 <div className="text-center mb-6">
@@ -896,7 +910,7 @@ export function ConceptContent() {
                   <h4 className="text-lg font-bold text-[#ffa600] mb-3">Сервис маршрутизации ↔ Личный Кабинет</h4>
                   <p className="text-slate-700 mb-3"><strong>Связь:</strong> Двусторонняя, это «навигатор».</p>
                   <p className="text-slate-700 mb-2"><strong>Что получает сервис:</strong> Задачи на доставку с адресами.</p>
-                  <p className="text-slate-700"><strong>Что отдает сервис:</strong> Статус заказа («В пути», «Доставлен») и координаты для отслеживания на карте.</p>
+                  <p className="text-slate-700"><strong>Что отдает сервис:</strong> Статусы заказа («В пути», «Доставлен») и координаты для отслеживания на карте.</p>
                 </div>
               </div>
             </div>
